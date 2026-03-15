@@ -110,7 +110,6 @@
         /* --- Unified Settings UI --- */
         #settings-trigger { position: fixed; bottom: 25px; right: 25px; z-index: 3000; background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         #settings-trigger:hover { border-color: var(--accent-color); transform: rotate(90deg); }
-        
         #settings-menu { position: fixed; bottom: 80px; right: 25px; background: rgba(10,10,10,0.95); border: 1px solid var(--card-border); padding: 18px; border-radius: 18px; z-index: 3000; display: none; flex-direction: column; gap: 12px; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .settings-label { font-size: 0.55rem; opacity: 0.4; font-family: 'Montserrat'; letter-spacing: 0.15em; margin-bottom: 2px; }
         .setting-group { display: flex; flex-direction: column; gap: 6px; }
@@ -136,7 +135,7 @@
         
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 2; width: 100vw; height: 100vh; }
         #main-scroll-container { position: relative; z-index: 5; width: 100%; }
-        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; box-sizing: border-box; }
+        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; box-sizing: border-box; }
         .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s cubic-bezier(0.15, 0.8, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
@@ -147,11 +146,9 @@
         .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.5s; display: flex; align-items: center; gap: 20px; }
         .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
 
-        @media (max-width: 700px) { 
-            .team-grid, .links-grid { grid-template-columns: 1fr; } 
-            .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } 
-            .mode-bar { height: 120px; flex-direction: column !important; padding: 15px; justify-content: center; }
-        }
+        .theme-dock { display: none; } /* Handled by settings */
+
+        @media (max-width: 700px) { .team-grid, .links-grid { grid-template-columns: 1fr; } .audio-unit { bottom: 90px; left: 20px; right: 20px; max-width: none; } .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } .mode-bar { height: 120px; flex-direction: column !important; padding: 15px; justify-content: center; } }
     </style>
 </head>
 <body class="theme-noir">
@@ -257,7 +254,7 @@
                 </a>
                 <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-youtube card-icon" style="font-size:2rem;"></i>
-                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。</p></div>
+                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。投稿頻度マジで少ない。</p></div>
                 </a>
                 <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-x-twitter card-icon" style="font-size:2rem;"></i>
@@ -290,12 +287,13 @@
         window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
         window.addEventListener('scroll', () => { sy = window.pageYOffset; });
 
-        // --- Settings Logic ---
-        const settingsTrigger = document.getElementById('settings-trigger');
-        const settingsMenu = document.getElementById('settings-menu');
+        // --- Settings & UI Logic ---
+        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
         const musicContainer = document.getElementById('music-container');
-        
-        settingsTrigger.addEventListener('click', () => {
+        const settingsMenu = document.getElementById('settings-menu');
+        const playBtn = document.getElementById('play-btn');
+
+        document.getElementById('settings-trigger').addEventListener('click', () => {
             settingsMenu.style.display = settingsMenu.style.display === 'flex' ? 'none' : 'flex';
         });
 
@@ -311,7 +309,7 @@
             settingsMenu.style.display = 'none';
         }
 
-        // --- Dragging ---
+        // --- Dragging Logic ---
         let isDragging = false, dragOffset = {x:0, y:0};
         document.getElementById('music-header').addEventListener('mousedown', e => {
             if(!musicContainer.classList.contains('mode-window')) return;
@@ -327,12 +325,9 @@
         });
         document.addEventListener('mouseup', () => isDragging = false);
 
-        // --- SoundCloud ---
-        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
+        // --- SoundCloud Control ---
         const wBars = [];
         const vizCont = document.getElementById('w-viz');
-        const playBtn = document.getElementById('play-btn');
-
         for(let i=0; i<16; i++){
             const b = document.createElement('div'); b.className = 'v-bar';
             vizCont.appendChild(b); wBars.push(b);
@@ -371,12 +366,13 @@
             scWidget.setVolume(pct * 100);
         });
 
-        // --- Visual Engine ---
+        // --- Intersection Observer ---
         const observer = new IntersectionObserver((entries) => { 
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); 
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // --- Visual Engine (Canvas) ---
         const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
         const pcCanvas = document.getElementById('particle-canvas'), pcCtx = pcCanvas.getContext('2d');
         const tpCanvas = document.getElementById('text-particle-canvas'), tpCtx = tpCanvas.getContext('2d');
