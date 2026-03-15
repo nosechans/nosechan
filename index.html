@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>- ̗̀ ʚ 𝓝𝓸𝓼𝓮𝓒𝓱𝓪ⁿ ɞ ̖́ - // Blurred Vision</title>
+    <title>- ̗̀ ʚ 𝓝𝓸𝓼𝓮𝓒𝓱𝓪ⁿ ɞ ̖́ - // ICHINOSE1428</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,59 +14,49 @@
 
     <style>
         :root {
-            /* --- NOIR (Default: Black & White Gradient) --- */
+            /* NOIR Core */
             --bg-color: #000000;
             --text-color: #ffffff;
             --accent-color: #ffffff;
-            --gradient-end: #000000;
             --accent-glow: rgba(255, 255, 255, 0.8);
             --card-bg: rgba(255, 255, 255, 0.03);
             --card-border: rgba(255, 255, 255, 0.08);
-            --glass-blur: blur(15px);
+            --glass-blur: blur(12px);
             --icon-color: #aaaaaa;
             --particle-color: #ffffff;
-            --scroll-thumb: rgba(255, 255, 255, 0.1);
         }
 
-        /* --- CRIMSON (Red Gradient) --- */
         body.theme-crimson {
-            --bg-color: #050000;
-            --accent-color: #ff0033;
-            --gradient-end: #000000;
-            --accent-glow: rgba(255, 0, 51, 0.6);
-            --card-bg: rgba(255, 0, 51, 0.02);
-            --card-border: rgba(255, 0, 51, 0.15);
-            --icon-color: #ff0033;
-            --particle-color: #ff0033;
+            --bg-color: #080000;
+            --accent-color: #ff0055;
+            --accent-glow: rgba(255, 0, 85, 0.8);
+            --card-bg: rgba(255, 0, 85, 0.03);
+            --card-border: rgba(255, 0, 85, 0.2);
+            --icon-color: #ff0055;
+            --particle-color: #ff0055;
         }
 
-        /* --- PURE (White & Black Gradient) --- */
         body.theme-pure {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --accent-color: #000000;
-            --gradient-end: #ffffff;
-            --accent-glow: rgba(0, 0, 0, 0.1);
-            --card-bg: rgba(0, 0, 0, 0.02);
+            --bg-color: #f5f5f7;
+            --text-color: #1a1a1a;
+            --accent-color: #0071e3;
+            --accent-glow: rgba(0, 113, 227, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.9);
             --card-border: rgba(0, 0, 0, 0.05);
-            --icon-color: #444444;
-            --particle-color: #000000;
-            --scroll-thumb: rgba(0, 0, 0, 0.1);
+            --particle-color: #888888;
         }
 
         body {
             margin: 0; background-color: var(--bg-color); color: var(--text-color);
             font-family: -apple-system, "SF Pro Display", "Noto Sans JP", sans-serif;
             transition: background-color 1s ease, color 1s ease;
-            overflow: hidden; -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
-
-        ::-webkit-scrollbar { width: 0; }
 
         /* --- Entry Overlay --- */
         #entry-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex;
+            background: #000; z-index: 10000; display: flex;
             align-items: center; justify-content: center; flex-direction: column;
             transition: opacity 1.5s ease, visibility 1.5s;
         }
@@ -74,82 +64,71 @@
         .entry-container { position: relative; display: flex; align-items: center; justify-content: center; }
         .entry-pulse { position: absolute; width: 150px; height: 150px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; animation: pulseIn 2.5s infinite ease-out; }
         @keyframes pulseIn { 0% { transform: scale(0.8); opacity: 0; } 50% { opacity: 0.3; } 100% { transform: scale(2.5); opacity: 0; } }
-        .entry-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 220px; height: 60px; border-radius: 30px; font-family: 'Montserrat'; letter-spacing: 0.3em; cursor: pointer; transition: 0.6s; backdrop-filter: blur(10px); z-index: 10; }
+        .entry-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 220px; height: 60px; border-radius: 30px; font-family: 'Montserrat'; letter-spacing: 0.3em; cursor: pointer; transition: 0.6s; backdrop-filter: blur(10px); z-index: 10; font-weight: 300; }
         .entry-btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); transform: scale(1.02); }
 
-        /* --- Audio Unit --- */
-        .audio-unit {
-            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
-            display: flex; align-items: center; gap: 16px;
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            padding: 12px 20px; border-radius: 60px; backdrop-filter: var(--glass-blur);
-            transition: 0.6s cubic-bezier(0.15, 0.8, 0.3, 1); max-width: 300px; cursor: pointer;
-        }
-        .audio-unit:hover { border-color: var(--accent-color); transform: translateY(-5px); }
-        .album-disk { width: 44px; height: 44px; border-radius: 50%; background: #111; overflow: hidden; border: 1px solid var(--card-border); transition: 0.5s; filter: grayscale(100%);}
-        .audio-unit.playing .album-disk { animation: diskRotate 10s linear infinite; border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-glow); }
-        @keyframes diskRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .audio-title { font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.8; }
-        .wave-container { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
-        .wave-bar { width: 2px; background: var(--accent-color); border-radius: 1px; height: 2px; transition: height 0.1s ease; opacity: 0.4; }
-        #sc-player-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+        /* --- Music Container --- */
+        #music-container { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); user-select: none; }
+        .mode-window { position: fixed; top: 50px; right: 50px; width: 300px; background: rgba(10, 10, 10, 0.7); border: 1px solid var(--card-border); border-radius: 16px; backdrop-filter: blur(25px); z-index: 2000; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
+        .mode-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; background: rgba(0, 0, 0, 0.85); border-top: 1px solid var(--card-border); backdrop-filter: blur(20px); z-index: 2000; display: flex !important; align-items: center; justify-content: space-between; flex-direction: row !important; padding: 0 40px; box-sizing: border-box; }
+        .window-header { padding: 12px 15px; border-bottom: 1px solid var(--card-border); display: flex; align-items: center; cursor: grab; background: rgba(255,255,255,0.02); }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; margin-right: 6px; }
+        .dot.red { background: #ff5f56; }
+        .window-body { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .track-art-large { width: 110px; height: 110px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+        .player-controls { display: flex; align-items: center; gap: 20px; }
+        .btn-p { background: none; border: none; color: #fff; cursor: pointer; transition: 0.3s; opacity: 0.6; font-size: 1.1rem; }
+        .play-toggle { font-size: 2rem; opacity: 1; }
+        .volume-container { width: 100%; display: flex; align-items: center; gap: 10px; opacity: 0.4; }
+        .vol-slider { flex: 1; height: 3px; background: #333; border-radius: 2px; cursor: pointer; position: relative; }
+        .vol-fill { height: 100%; background: var(--accent-color); width: 70%; border-radius: 2px; }
+        .viz-window { display: flex; align-items: flex-end; gap: 3px; height: 25px; justify-content: center; }
+        .v-bar { width: 4px; background: var(--accent-color); border-radius: 2px 2px 0 0; opacity: 0.3; }
 
-        /* --- Theme Dock --- */
-        .theme-dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 100; display: flex; gap: 20px; background: rgba(0,0,0,0.2);
-            padding: 12px 25px; border-radius: 40px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
-        }
-        .theme-btn { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; transition: 0.4s; position: relative; }
-        .theme-btn.active::after { content:''; position: absolute; top:-6px; left:-6px; width:26px; height:26px; border: 1px solid var(--accent-color); border-radius: 50%; }
-        .btn-noir { background: #555; }
-        .btn-crimson { background: #ff0033; }
-        .btn-pure { background: #fff; }
+        /* --- Settings UI --- */
+        #settings-trigger { position: fixed; bottom: 25px; right: 25px; z-index: 3000; background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        #settings-menu { position: fixed; bottom: 80px; right: 25px; background: rgba(10,10,10,0.95); border: 1px solid var(--card-border); padding: 18px; border-radius: 18px; z-index: 3000; display: none; flex-direction: column; gap: 12px; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .setting-group { display: flex; flex-direction: column; gap: 6px; }
+        .setting-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 10px; font-size: 0.75rem; cursor: pointer; text-align: left; transition: 0.2s; font-family: 'Montserrat'; }
 
-        /* --- Background Effects with Images --- */
+        /* --- Profile Header (Icons & Teams) --- */
+        .profile-section { text-align: center; margin-bottom: 80px; width: 100%; max-width: 700px; }
+        .profile-icon { width: 140px; height: 140px; border-radius: 50%; background-image: url('pic/icon.jpg'); background-size: cover; border: 2px solid var(--card-border); margin: 0 auto 30px; box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: 0.8s; }
+        .profile-name { font-family: 'Montserrat'; font-weight: 900; font-size: 2.8rem; letter-spacing: 0.1em; margin: 10px 0; }
+        .tag-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+        .tag { font-size: 0.7rem; padding: 5px 15px; border: 1px solid var(--card-border); border-radius: 20px; opacity: 0.5; font-family: 'Montserrat'; }
+        
+        .team-title-decor { font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.3em; margin: 40px 0 25px; color: var(--accent-color); text-transform: uppercase; border-bottom: 1px solid var(--card-border); display: inline-block; padding-bottom: 5px; }
+        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+        .team-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 15px; transition: 0.4s; text-align: left; backdrop-filter: blur(5px); }
+        .team-card:hover { border-color: var(--accent-color); box-shadow: 0 0 25px var(--accent-glow); transform: translateY(-5px); }
+        .team-card h4 { margin: 0; font-family: 'Montserrat'; font-size: 0.8rem; }
+        .team-card p { margin: 5px 0 0; font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; }
+
+        /* --- Sections & Canvas --- */
         #bg-global-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; background: #000; }
+        .bg-image-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.4) grayscale(1); transition: 4s ease; }
+        .bg-image-layer.active { opacity: 1; animation: appleZoom 30s linear infinite alternate; }
+        @keyframes appleZoom { from { transform: scale(1.0); } to { transform: scale(1.1); } }
+        #bg-glass-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; backdrop-filter: var(--glass-blur); background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-color) 130%); pointer-events: none; }
         
-        .bg-image-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center; opacity: 0;
-            filter: brightness(0.5) grayscale(100%); /* モノクロ・減光加工 */
-            transition: opacity 3s ease; /* クロスフェード */
-            transform: scale(1.05); /* わずかに拡大 */
+        canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 2; width: 100vw; height: 100vh; }
+        #main-scroll-container { position: relative; z-index: 5; width: 100%; }
+        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; box-sizing: border-box; }
+        
+        h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(4rem, 18vw, 11rem); letter-spacing: -0.05em; margin: 0; text-align: center; }
+        .hero-subtitle { font-size: 1rem; letter-spacing: 1em; opacity: 0.3; text-transform: uppercase; margin-top: 20px; text-align: center; }
+        
+        .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 900px; }
+        .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.5s; display: flex; align-items: center; gap: 20px; }
+        .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+
+        .theme-dock { display: none; } /* Handled by settings */
+
+        @media (max-width: 700px) { 
+            .team-grid, .links-grid { grid-template-columns: 1fr; } 
+            .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } 
         }
-        .bg-image-layer.active { opacity: 1; }
-
-        #bg-glass-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 1; backdrop-filter: blur(15px); /* ぼかし */
-            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-color) 120%); /* 深度グラデ */
-            pointer-events: none;
-        }
-
-        /* --- Main Visual Canvas --- */
-        #canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
-        
-        /* --- Content Layer --- */
-        #main-scroll-container { position: relative; z-index: 5; width: 100%; height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; }
-        #main-scroll-container::-webkit-scrollbar { width: 0; }
-
-        section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 20px; box-sizing: border-box; scroll-snap-align: start; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.15, 0.8, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(3rem, 12vw, 8rem); letter-spacing: -0.05em; margin: 0; background: linear-gradient(to bottom, var(--text-color) 50%, var(--card-border) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));}
-        .hero-subtitle { font-size: 0.8rem; letter-spacing: 0.8em; opacity: 0.4; text-transform: uppercase; margin-top: 30px; }
-        
-        .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 800px; }
-        .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 20px; text-decoration: none; color: inherit; transition: 0.6s; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 20px; }
-        .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .card-icon { font-size: 1.5rem; color: var(--icon-color); transition: 0.4s; width: 30px; text-align: center;}
-        .link-card:hover .card-icon { color: var(--accent-color); transform: scale(1.1); }
-        .card-info-text h3 { font-size: 1rem; margin: 0 0 2px 0; }
-        .card-info-text p { font-size: 0.75rem; opacity: 0.5; margin: 0; font-weight: 300; }
-
-        footer { position: absolute; bottom: 80px; width: 100%; text-align: center; font-size: 0.6rem; opacity: 0.2; letter-spacing: 0.5em; }
-
-        @media (max-width: 700px) { .links-grid { grid-template-columns: 1fr; } .audio-unit { bottom: 90px; left: 20px; right: 20px; max-width: none; } }
     </style>
 </head>
 <body class="theme-noir">
@@ -157,25 +136,47 @@
     <div id="entry-overlay">
         <div class="entry-container">
             <div class="entry-pulse"></div>
-            <button class="entry-btn" onclick="startExperience()">CONNECT</button>
+            <button class="entry-btn" onclick="startExperience()">黎明 // ACCESS</button>
         </div>
     </div>
 
-    <div class="theme-dock">
-        <div class="theme-btn btn-noir active" onclick="setTheme('noir', this)"></div>
-        <div class="theme-btn btn-crimson" onclick="setTheme('crimson', this)"></div>
-        <div class="theme-btn btn-pure" onclick="setTheme('pure', this)"></div>
+    <div id="music-container" class="mode-window">
+        <div class="window-header" id="music-header">
+            <div style="display:flex; gap:6px; margin-right:15px;"><div class="dot red"></div><div class="dot"></div><div class="dot"></div></div>
+            <div style="font-size:0.5rem; font-family:'Montserrat'; opacity:0.5; letter-spacing:0.2em;">SOUNDCLOUD_STATION</div>
+        </div>
+        <div class="window-body">
+            <div class="track-art-large"><img src="" id="w-art" style="width:100%; height:100%; object-fit:cover; filter: grayscale(0.5);"></div>
+            <div class="track-info-mid">
+                <div id="w-title" style="font-size:0.8rem; font-weight:700; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:240px; margin-bottom:10px;">Synchronizing...</div>
+                <div class="viz-window" id="w-viz"></div>
+            </div>
+            <div class="player-controls">
+                <button class="btn-p" onclick="scWidget.prev()"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="btn-p play-toggle" id="play-btn" onclick="scWidget.toggle()"><i class="fa-solid fa-circle-play"></i></button>
+                <button class="btn-p" onclick="scWidget.next()"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <div class="volume-container">
+                <i class="fa-solid fa-volume-low" style="font-size: 0.7rem;"></i>
+                <div class="vol-slider" id="vol-slider"><div class="vol-fill" id="vol-fill"></div></div>
+            </div>
+        </div>
+        <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/sets/181313331&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" style="display:none;"></iframe>
     </div>
 
-    <div class="audio-unit reveal" id="audioUnit">
-        <div class="album-disk">
-            <img src="" id="trackArt" style="width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: 1s;">
+    <button id="settings-trigger"><i class="fa-solid fa-sliders"></i></button>
+    <div id="settings-menu">
+        <div class="setting-group">
+            <div style="font-size:0.55rem; opacity:0.4; font-family:'Montserrat'; letter-spacing:0.1em; margin-bottom:5px;">PLAYER_MODE</div>
+            <button class="setting-btn" onclick="setMusicMode('mode-window')">Window Mode</button>
+            <button class="setting-btn" onclick="setMusicMode('mode-bar')">Bar Mode</button>
         </div>
-        <div class="audio-info">
-            <div class="audio-title" id="trackTitle">Syncing...</div>
-            <div class="wave-container" id="visualizer"></div>
+        <div class="setting-group">
+            <div style="font-size:0.55rem; opacity:0.4; font-family:'Montserrat'; letter-spacing:0.1em; margin-bottom:5px;">COLOR_THEME</div>
+            <button class="setting-btn" onclick="setThemeDirect('noir')">Noir</button>
+            <button class="setting-btn" onclick="setThemeDirect('crimson')">Crimson</button>
+            <button class="setting-btn" onclick="setThemeDirect('pure')">Pure</button>
         </div>
-        <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/sets/181313331&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" allow="autoplay"></iframe>
     </div>
 
     <div id="bg-global-container">
@@ -187,251 +188,248 @@
     <div id="bg-glass-overlay"></div>
 
     <canvas id="canvas"></canvas>
+    <canvas id="particle-canvas"></canvas>
+    <canvas id="text-particle-canvas"></canvas>
 
     <div id="main-scroll-container">
         <section>
             <div class="hero-header reveal">
                 <h1>NoseChan</h1>
-                <p class="hero-subtitle">Visual Experience // Habitat</p>
+                <p class="hero-subtitle">Habitat Engine</p>
             </div>
         </section>
 
         <section>
+            <div class="profile-section reveal">
+                <div class="profile-icon"></div>
+                <h2 class="profile-name">ICHINOSE</h2>
+                <p class="profile-bio">
+                    Video Editor / Unity Animator<br>
+                    After Effects 6年 / AviUtl 1年。映像制作頑張ってます。
+                </p>
+                <div class="tag-container">
+                    <span class="tag">AfterEffects</span><span class="tag">AviUtl</span><span class="tag">音MAD</span><span class="tag">VRChat</span>
+                </div>
+                
+                <div class="team-title-decor">所属チーム：</div>
+                <div class="team-grid">
+                    <div class="team-card"><h4>♡CuteAggression♡</h4><p>Administrator</p></div>
+                    <div class="team-card"><h4>MONOCHROME SEACON</h4><p>Founder</p></div>
+                    <div class="team-card"><h4>TEAM PARTY PEOPLE</h4><p>Animator</p></div>
+                    <div class="team-card"><h4>MASTERS PARTY PEOPLE</h4><p>Animator</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="reveal"><h2>ICHINOSE1428</h2></div>
             <div class="links-grid reveal">
                 <a href="https://discord.com/invite/UYhthguZGr" target="_blank" class="link-card">
-                    <i class="fa-brands fa-discord card-icon"></i>
-                    <div class="card-info-text"><h3>Discord</h3><p>公式コミュニティ。</p></div>
+                    <i class="fa-brands fa-discord card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>Discord</h3><p>一ノ瀬のDiscordサーバー</p></div>
                 </a>
                 <a href="https://www.tiktok.com/@ichinose1428" target="_blank" class="link-card">
-                    <i class="fa-brands fa-tiktok card-icon"></i>
-                    <div class="card-info-text"><h3>TikTok</h3><p>ショート動画。</p></div>
+                    <i class="fa-brands fa-tiktok card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>TikTok</h3><p>制作動画・ショート</p></div>
                 </a>
                 <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
-                    <i class="fa-brands fa-youtube card-icon"></i>
-                    <div class="card-info-text"><h3>YouTube</h3><p>メインアーカイブ。</p></div>
+                    <i class="fa-brands fa-youtube card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。投稿頻度マジで少ない。</p></div>
                 </a>
                 <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
-                    <i class="fa-brands fa-x-twitter card-icon"></i>
-                    <div class="card-info-text"><h3>Twitter / X</h3><p>思考、最新情報。</p></div>
+                    <i class="fa-brands fa-x-twitter card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>Twitter / X</h3><p>思考垂れ流し</p></div>
                 </a>
             </div>
-            <footer>NOSECHAN // &copy; 2026</footer>
         </section>
+
+        <section>
+            <div class="reveal"><h2>猫垣幻音</h2></div>
+            <div class="links-grid reveal">
+                <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
+                    <i class="fa-solid fa-music card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>YouTube</h3><p>音MAD上げてるとこ</p></div>
+                </a>
+                <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
+                    <i class="fa-brands fa-x-twitter card-icon" style="font-size:2rem;"></i>
+                    <div class="card-bottom"><h3>X</h3><p>音MAD関連の進捗、雑談アカウント。</p></div>
+                </a>
+            </div>
+        </section>
+
+        <footer style="padding: 100px 0; text-align: center; font-size: 0.7rem; opacity: 0.2; letter-spacing: 0.5em;">
+            NOSECHAN / NekoNoa_otoMAD // ICHINOSE1428 // &copy; 2026
+        </footer>
     </div>
 
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const scrollContainer = document.getElementById('main-scroll-container');
+        let mx = 0, my = 0, tx = 0, ty = 0, time = 0, sy = 0, introProgress = 0;
+        window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+        window.addEventListener('scroll', () => { sy = window.pageYOffset; });
 
-        let width, height, sy = 0;
-        let mouseX = 0, mouseY = 0;
-        let targetX = 0, targetY = 0;
-        let time = 0;
-        let introProgress = 0;
+        // UI & Settings
+        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
+        const musicContainer = document.getElementById('music-container');
+        const settingsMenu = document.getElementById('settings-menu');
+        const playBtn = document.getElementById('play-btn');
+
+        document.getElementById('settings-trigger').addEventListener('click', () => {
+            settingsMenu.style.display = settingsMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        function setMusicMode(mode) {
+            musicContainer.className = mode;
+            musicContainer.style.left = ''; musicContainer.style.top = ''; 
+            musicContainer.style.right = (mode === 'mode-window') ? '50px' : '';
+            settingsMenu.style.display = 'none';
+        }
+
+        function setThemeDirect(t) {
+            document.body.className = 'theme-' + t;
+            settingsMenu.style.display = 'none';
+        }
+
+        // Drag Logic
+        let isDragging = false, dragOffset = {x:0, y:0};
+        document.getElementById('music-header').addEventListener('mousedown', e => {
+            if(!musicContainer.classList.contains('mode-window')) return;
+            isDragging = true;
+            dragOffset.x = e.clientX - musicContainer.offsetLeft;
+            dragOffset.y = e.clientY - musicContainer.offsetTop;
+        });
+        document.addEventListener('mousemove', e => {
+            if(!isDragging) return;
+            musicContainer.style.left = (e.clientX - dragOffset.x) + 'px';
+            musicContainer.style.top = (e.clientY - dragOffset.y) + 'px';
+            musicContainer.style.right = 'auto';
+        });
+        document.addEventListener('mouseup', () => isDragging = false);
 
         // SoundCloud
-        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
-        function startExperience() { document.getElementById('entry-overlay').classList.add('hidden'); scWidget.play(); }
+        const wBars = [];
+        const vizCont = document.getElementById('w-viz');
+        for(let i=0; i<16; i++){
+            const b = document.createElement('div'); b.className = 'v-bar';
+            vizCont.appendChild(b); wBars.push(b);
+        }
+
+        function startExperience() { 
+            document.getElementById('entry-overlay').classList.add('hidden'); 
+            scWidget.play(); 
+        }
 
         const syncTrackInfo = () => {
             scWidget.getCurrentSound(s => {
                 if (s && s.title) {
-                    document.getElementById('trackTitle').innerText = s.title;
-                    const art = s.artwork_url ? s.artwork_url.replace('large', 't500x500') : s.user.avatar_url;
-                    document.getElementById('trackArt').src = art; document.getElementById('trackArt').style.opacity = 1;
+                    document.getElementById('w-title').innerText = s.title;
+                    document.getElementById('w-art').src = s.artwork_url ? s.artwork_url.replace('large', 't500x500') : s.user.avatar_url;
                 } else { setTimeout(syncTrackInfo, 800); }
             });
         };
-        scWidget.bind(SC.Widget.Events.PLAY, () => { document.getElementById('audioUnit').classList.add('playing'); syncTrackInfo(); });
-        scWidget.bind(SC.Widget.Events.PAUSE, () => document.getElementById('audioUnit').classList.remove('playing'));
-        document.getElementById('audioUnit').addEventListener('click', () => scWidget.toggle());
 
-        // Visualizer
-        const vizBars = [];
-        const vizCont = document.getElementById('visualizer');
-        for (let i = 0; i < 12; i++) { const b = document.createElement('div'); b.className = 'wave-bar'; vizCont.appendChild(b); vizBars.push(b); }
+        scWidget.bind(SC.Widget.Events.READY, () => {
+            scWidget.getSounds(sounds => scWidget.skip(Math.floor(Math.random() * sounds.length)));
+        });
 
-        // --- Background Image Slideshow Logic ---
-        const bgLayers = document.querySelectorAll('.bg-image-layer');
-        let currentBgIdx = -1;
+        scWidget.bind(SC.Widget.Events.PLAY, () => { 
+            playBtn.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
+            syncTrackInfo(); 
+        });
+        scWidget.bind(SC.Widget.Events.PAUSE, () => {
+            playBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i>';
+        });
 
-        function updateBackgroundImage() {
-            let nextIdx = Math.floor(Math.random() * bgLayers.length);
-            // 同じ画像が続かないようにする
-            while(nextIdx === currentBgIdx) nextIdx = Math.floor(Math.random() * bgLayers.length);
+        document.getElementById('vol-slider').addEventListener('click', e => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            document.getElementById('vol-fill').style.width = (pct * 100) + '%';
+            scWidget.setVolume(pct * 100);
+        });
 
-            // 現在の画像を非アクティブに
-            if (currentBgIdx >= 0) bgLayers[currentBgIdx].classList.remove('active');
-            
-            // 次の画像をアクティブに（CSSでクロスフェード）
-            bgLayers[nextIdx].classList.add('active');
-            currentBgIdx = nextIdx;
+        // Themes & Observer
+        const observer = new IntersectionObserver((entries) => { 
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); 
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Visual Engine
+        const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+        const pcCanvas = document.getElementById('particle-canvas'), pcCtx = pcCanvas.getContext('2d');
+        const tpCanvas = document.getElementById('text-particle-canvas'), tpCtx = tpCanvas.getContext('2d');
+        let sw, sh, particles = [], tpParticles = [], font;
+
+        function resizeCanvas() { 
+            sw = canvas.width = pcCanvas.width = tpCanvas.width = window.innerWidth;
+            sh = canvas.height = pcCanvas.height = tpCanvas.height = window.innerHeight; 
+            if(font) createTextParticles();
+            createParticles();
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawWavyStarFrame(cx, cy, size, opacity, waveAmp, waveFreq, intro) {
+            const accent = getComputedStyle(document.body).getPropertyValue('--accent-color');
+            const cs = size * intro * (1 + (0.5) * (1 - Math.exp(-sy * 0.0005)));
+            ctx.lineWidth = 1.0; ctx.strokeStyle = accent; ctx.globalAlpha = opacity * intro; 
+            ctx.shadowBlur = 15 * intro; ctx.shadowColor = accent; ctx.beginPath();
+            const pts = [{x:cx-cs,y:cy},{x:cx,y:cy-cs},{x:cx+cs,y:cy},{x:cx,y:cy+cs},{x:cx-cs,y:cy}];
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for(let i=1;i<5;i++){
+                const off = i*(Math.PI/2);
+                const wx = cx + Math.sin(time*waveFreq+off) * (waveAmp*intro + Math.sin(time*2.5)*8);
+                const wy = cy + Math.cos(time*waveFreq+off) * (waveAmp*intro + Math.sin(time*2.5)*8);
+                ctx.quadraticCurveTo(wx, wy, pts[i].x, pts[i].y);
+            }
+            ctx.stroke(); ctx.globalAlpha = 1; ctx.shadowBlur = 0;
         }
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            targetX = width / 2; targetY = height / 2;
+        class Particle {
+            constructor() { this.init(); }
+            init() { this.x = Math.random()*sw; this.y = Math.random()*sh; this.vx = (Math.random()-0.5)*0.3; this.vy = (Math.random()-0.5)*0.3; this.r = Math.random()*1.2 + 0.3; this.o = Math.random()*0.4 + 0.1; }
+            update() { this.x += this.vx; this.y += this.vy; if(this.x<0 || this.x>sw || this.y<0 || this.y>sh) this.init(); }
+            draw() { pcCtx.fillStyle = getComputedStyle(document.body).getPropertyValue('--particle-color'); pcCtx.globalAlpha = this.o; pcCtx.beginPath(); pcCtx.arc(this.x, this.y, this.r, 0, Math.PI*2); pcCtx.fill(); }
         }
+        function createParticles() { particles = []; for(let i=0; i<sw/15; i++) particles.push(new Particle()); }
 
-        window.addEventListener('resize', resize);
-        window.addEventListener('mousemove', (e) => { targetX = e.clientX; targetY = e.clientY; });
-        scrollContainer.addEventListener('scroll', () => { sy = scrollContainer.scrollTop; });
-        resize();
-
-        // 画像スライドショーを開始 (12秒ごと)
-        updateBackgroundImage();
-        setInterval(updateBackgroundImage, 12000); 
-
-        function drawWavyStarFrame(centerX, centerY, size, opacity, waveAmp, waveFreq, introScale) {
-            const style = getComputedStyle(document.body);
-            const accent = style.getPropertyValue('--accent-color').trim();
-            const gradientEnd = style.getPropertyValue('--gradient-end').trim();
-
-            const currentSize = size * introScale;
-            
-            ctx.lineWidth = 1.0;
-            
-            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, currentSize * 1.2);
-            gradient.addColorStop(0, accent); 
-            gradient.addColorStop(0.8, accent); 
-            gradient.addColorStop(1, gradientEnd); 
-
-            ctx.strokeStyle = gradient;
-            
-            if(document.body.classList.contains('theme-crimson')) {
-                ctx.shadowBlur = 20 * introScale;
-                ctx.shadowColor = accent;
-            } else {
-                ctx.shadowBlur = 0;
-            }
-            
-            ctx.beginPath();
-            const points = [
-                { x: centerX - currentSize, y: centerY },
-                { x: centerX, y: centerY - currentSize },
-                { x: centerX + currentSize, y: centerY },
-                { x: centerX, y: centerY + currentSize },
-                { x: centerX - currentSize, y: centerY }
-            ];
-
-            ctx.moveTo(points[0].x, pts[0].y); // Note: Fix here points[0].y from pts[0].y
-
-            // --- Fix a small typo from original code `pts[0].y` to `points[0].y` ---
-            for (let i = 1; i < points.length; i++) {
-                const p = points[i];
-                const waveOffset = i * (Math.PI / 2); 
-                const wavyCX = centerX + Math.sin(time * waveFreq + waveOffset) * waveAmp * introScale;
-                const wavyCY = centerY + Math.cos(time * waveFreq + waveOffset) * waveAmp * introScale;
-
-                ctx.quadraticCurveTo(wavyCX, wavyCY, p.x, p.y);
-            }
-            ctx.stroke();
-            ctx.shadowBlur = 0; // Reset
-        }
-
-        // Original code had a pts[0].y bug, fixing it here for the integrated script
-        // Note: Replacing the drawWavyStarFrame function completely for safety.
-
-        function drawWavyStarFrameFixed(centerX, centerY, size, opacity, waveAmp, waveFreq, introScale) {
-            const style = getComputedStyle(document.body);
-            const accent = style.getPropertyValue('--accent-color').trim();
-            const gradientEnd = style.getPropertyValue('--gradient-end').trim();
-
-            const currentSize = size * introScale;
-            
-            ctx.lineWidth = 1.0;
-            
-            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, currentSize * 1.2);
-            gradient.addColorStop(0, accent); 
-            gradient.addColorStop(0.8, accent); 
-            gradient.addColorStop(1, gradientEnd); 
-
-            ctx.strokeStyle = gradient;
-            
-            if(document.body.classList.contains('theme-crimson')) {
-                ctx.shadowBlur = 20 * introScale;
-                ctx.shadowColor = accent;
-            } else {
-                ctx.shadowBlur = 0;
-            }
-            
-            ctx.beginPath();
-            const points = [
-                { x: centerX - currentSize, y: centerY },
-                { x: centerX, y: centerY - currentSize },
-                { x: centerX + currentSize, y: centerY },
-                { x: centerX, y: centerY + currentSize },
-                { x: centerX - currentSize, y: centerY }
-            ];
-
-            ctx.moveTo(points[0].x, points[0].y);
-
-            for (let i = 1; i < points.length; i++) {
-                const p = points[i];
-                const waveOffset = i * (Math.PI / 2); 
-                const wavyCX = centerX + Math.sin(time * waveFreq + waveOffset) * waveAmp * introScale;
-                const wavyCY = centerY + Math.cos(time * waveFreq + waveOffset) * waveAmp * introScale;
-
-                ctx.quadraticCurveTo(wavyCX, wavyCY, p.x, p.y);
-            }
-            ctx.stroke();
-            ctx.shadowBlur = 0; // Reset
+        opentype.load('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w.ttf', (err, f) => { if (!err) { font = f; createTextParticles(); } });
+        function createTextParticles() {
+            tpParticles = []; const fs = Math.max(sw * 0.12, 100), tw = font.getAdvanceWidth("NoseChan", fs);
+            const path = font.getPath("NoseChan", (sw-tw)/2, (sh+fs*0.7)/2, fs);
+            path.commands.forEach(cmd => { if(cmd.x && cmd.y && Math.random()>0.88) tpParticles.push({x:Math.random()*sw, y:Math.random()*sh, bx:cmd.x, by:cmd.y, vx:0, vy:0}); });
         }
 
         function animate() {
-            time += 0.01;
-
-            if (introProgress < 1) {
-                introProgress += (1 - introProgress) * 0.03;
-                if (1 - introProgress < 0.001) introProgress = 1;
-            }
-
-            // マウス追従
-            mouseX += (targetX - mouseX) * 0.04;
-            mouseY += (targetY - mouseY) * 0.04;
-
-            // Canvasは透明にして、CSS背景を見せる
-            ctx.clearRect(0, 0, width, height); 
-
-            const midX = width / 2;
-            const midY = height / 2;
-            
-            const scrollScale = 1 - (sy / scrollContainer.scrollHeight) * 0.5;
-            const baseSize = Math.max(width, height) * 0.9 * scrollScale;
-
-            const intro1 = Math.pow(introProgress, 1.5);
-            const intro2 = Math.pow(introProgress, 1.2);
-            const intro3 = introProgress;
-
-            // Gradient Wavy Frames
-            // 1. 奥
-            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.01, midY + (mouseY - midY) * 0.01 + sy * 0.1, baseSize * 0.8, 0.1, 10, 0.4, intro1);
-            // 2. 中
-            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.02, midY + (mouseY - midY) * 0.02 + sy * 0.2, baseSize * 0.9, 0.2, 20, 0.5, intro2);
-            // 3. 前
-            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.03, midY + (mouseY - midY) * 0.03 + sy * 0.3, baseSize, 0.4, 30, 0.6, intro3);
-
-            // SoundCloud Visualizer
-            if (document.getElementById('audioUnit').classList.contains('playing')) {
-                vizBars.forEach((b, i) => { b.style.height = (2 + Math.random()*10 + Math.sin(time*10 + i)*3) + 'px'; });
-            }
-
+            time += 0.01; mx += (tx - mx) * 0.05; my += (ty - my) * 0.05;
+            if (introProgress < 1) introProgress += (1 - introProgress) * 0.03;
+            ctx.clearRect(0,0,sw,sh); pcCtx.clearRect(0,0,sw,sh); tpCtx.clearRect(0,0,sw,sh);
+            const bsz = Math.max(sw,sh)*0.5;
+            drawWavyStarFrame(sw/2, sh/2, bsz*0.9, 0.03, 10, 0.3, Math.pow(introProgress, 2));
+            drawWavyStarFrame(sw/2, sh/2, bsz*1.2, 0.1, 25, 0.5, introProgress);
+            particles.forEach(p => { p.update(); p.draw(); });
+            tpCtx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-color');
+            tpParticles.forEach(p => {
+                p.vx += (p.bx - p.x)*0.1; p.vy += (p.by - (p.y + sy * 0.4))*0.1;
+                p.vx *= 0.8; p.vy *= 0.8; p.x += p.vx; p.y += p.vy;
+                tpCtx.beginPath(); tpCtx.arc(p.x, p.y, 1.0, 0, Math.PI*2); tpCtx.fill();
+            });
+            wBars.forEach((b, i) => {
+                const isPlaying = playBtn.innerHTML.includes('pause');
+                const h = isPlaying ? (5 + Math.random()*20 + Math.sin(time*10+i)*5) : 2;
+                b.style.height = h + 'px'; b.style.opacity = isPlaying ? "0.8" : "0.2";
+            });
             requestAnimationFrame(animate);
         }
+        resizeCanvas(); animate();
 
-        // Theme & Reveal
-        function setTheme(theme, btnEl) {
-            document.body.className = 'theme-' + theme;
-            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
+        const bgLayers = document.querySelectorAll('.bg-image-layer');
+        let currentIdx = -1;
+        function updateBg() {
+            let next = Math.floor(Math.random() * bgLayers.length);
+            while(next === currentIdx) next = Math.floor(Math.random() * bgLayers.length);
+            if(currentIdx >= 0) bgLayers[currentIdx].classList.remove('active');
+            bgLayers[next].classList.add('active');
+            currentIdx = next;
         }
-
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        animate();
+        updateBg(); setInterval(updateBg, 15000);
     </script>
 </body>
 </html>
