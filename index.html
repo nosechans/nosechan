@@ -14,7 +14,6 @@
 
     <style>
         :root {
-            /* NOIR Core */
             --bg-color: #000000;
             --text-color: #ffffff;
             --accent-color: #ffffff;
@@ -53,7 +52,6 @@
             overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Entry Overlay --- */
         #entry-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 10000; display: flex;
@@ -67,7 +65,6 @@
         .entry-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 220px; height: 60px; border-radius: 30px; font-family: 'Montserrat'; letter-spacing: 0.3em; cursor: pointer; transition: 0.6s; backdrop-filter: blur(10px); z-index: 10; font-weight: 300; }
         .entry-btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); transform: scale(1.02); }
 
-        /* --- Music Container Modes --- */
         #music-container { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); user-select: none; }
         .mode-window {
             position: fixed; top: 50px; right: 50px; width: 300px;
@@ -93,7 +90,6 @@
         .dot.red { background: #ff5f56; }
         .window-body { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .track-art-large { width: 110px; height: 110px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .track-name-large { font-size: 0.85rem; font-weight: 700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         
         .player-controls { display: flex; align-items: center; gap: 20px; }
         .btn-p { background: none; border: none; color: #fff; cursor: pointer; transition: 0.3s; opacity: 0.6; font-size: 1.1rem; }
@@ -102,12 +98,11 @@
 
         .volume-container { width: 100%; display: flex; align-items: center; gap: 10px; opacity: 0.4; }
         .vol-slider { flex: 1; height: 3px; background: #333; border-radius: 2px; position: relative; cursor: pointer; }
-        .vol-fill { height: 100%; background: var(--accent-color); width: 70%; border-radius: 2px; }
+        .vol-fill { height: 100%; background: var(--accent-color); width: 30%; border-radius: 2px; }
 
         .viz-window { display: flex; align-items: flex-end; gap: 3px; height: 25px; justify-content: center; }
         .v-bar { width: 4px; background: var(--accent-color); border-radius: 2px 2px 0 0; opacity: 0.3; }
 
-        /* --- Unified Settings UI --- */
         #settings-trigger { position: fixed; bottom: 25px; right: 25px; z-index: 3000; background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         #settings-trigger:hover { border-color: var(--accent-color); transform: rotate(90deg); }
         #settings-menu { position: fixed; bottom: 80px; right: 25px; background: rgba(10,10,10,0.95); border: 1px solid var(--card-border); padding: 18px; border-radius: 18px; z-index: 3000; display: none; flex-direction: column; gap: 12px; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -116,9 +111,12 @@
         .setting-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 10px; font-size: 0.75rem; cursor: pointer; text-align: left; transition: 0.2s; font-family: 'Montserrat'; }
         .setting-btn:hover { border-color: var(--accent-color); background: rgba(255,255,255,0.1); }
 
-        /* --- Profile & Team Decoration --- */
         .profile-section { text-align: center; margin-bottom: 60px; width: 100%; max-width: 700px; }
         .profile-icon { width: 120px; height: 120px; border-radius: 50%; background-image: url('pic/icon.jpg'); background-size: cover; border: 2px solid var(--card-border); margin: 0 auto 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); transition: 0.8s; }
+        .profile-bio { font-size: 0.85rem; opacity: 0.6; line-height: 1.8; margin: 10px 0 20px; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 15px 0; }
+        .tag { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-color); font-size: 0.65rem; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.08em; font-family: 'Montserrat'; opacity: 0.7; transition: 0.3s; }
+        .tag:hover { border-color: var(--accent-color); opacity: 1; box-shadow: 0 0 10px var(--accent-glow); }
         .team-title-decor { font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.3em; margin: 40px 0 20px; color: var(--accent-color); text-transform: uppercase; border-bottom: 1px solid var(--card-border); display: inline-block; padding-bottom: 5px; }
         .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
         .team-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 15px; transition: 0.4s; text-align: left; backdrop-filter: blur(5px); }
@@ -126,7 +124,6 @@
         .team-card h4 { margin: 0; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.05em; }
         .team-card p { margin: 5px 0 0; font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        /* --- Background Layers --- */
         #bg-global-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; background: #000; }
         .bg-image-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.4) grayscale(100%); transition: opacity 4s ease; }
         .bg-image-layer.active { opacity: 1; animation: appleZoom 30s linear infinite alternate; }
@@ -135,20 +132,68 @@
         
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 2; width: 100vw; height: 100vh; }
         #main-scroll-container { position: relative; z-index: 5; width: 100%; }
-        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; box-sizing: border-box; }
+        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; box-sizing: border-box; }
         .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s cubic-bezier(0.15, 0.8, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(3rem, 15vw, 9rem); letter-spacing: -0.06em; margin: 0; line-height: 0.8; }
         .hero-subtitle { font-size: 0.9rem; letter-spacing: 0.9em; opacity: 0.4; text-transform: uppercase; margin-top: 30px; }
+
+        .hero-header h1 { overflow: visible; }
+        .char {
+            display: inline-block;
+            animation: charFloat 3s ease-in-out infinite;
+            cursor: default;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .char:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 40px var(--accent-glow);
+            animation: charBounce 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+        }
+        @keyframes charFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg) scaleX(1); }
+            25%       { transform: translateY(-8px) rotate(-1deg) scaleX(0.98); }
+            50%       { transform: translateY(-4px) rotate(0.5deg) scaleX(1.01); }
+            75%       { transform: translateY(-10px) rotate(1deg) scaleX(0.99); }
+        }
+        @keyframes charBounce {
+            0%   { transform: scale(1) translateY(0); }
+            30%  { transform: scale(1.35) translateY(-18px) rotate(-5deg); }
+            60%  { transform: scale(0.9) translateY(4px) rotate(3deg); }
+            80%  { transform: scale(1.1) translateY(-6px) rotate(-1deg); }
+            100% { transform: scale(1) translateY(0) rotate(0deg); }
+        }
+        @keyframes charGlitch {
+            0%   { transform: translateX(0) skewX(0); opacity: 1; }
+            10%  { transform: translateX(-4px) skewX(-5deg); opacity: 0.8; }
+            20%  { transform: translateX(4px) skewX(5deg); opacity: 1; }
+            30%  { transform: translateX(-2px) skewX(-2deg); opacity: 0.9; }
+            40%  { transform: translateX(0) skewX(0); opacity: 1; }
+            100% { transform: translateX(0) skewX(0); opacity: 1; }
+        }
+        @keyframes charSpin {
+            0%   { transform: translateY(0) rotateY(0deg) scale(1); }
+            40%  { transform: translateY(-15px) rotateY(180deg) scale(1.1); }
+            100% { transform: translateY(0) rotateY(360deg) scale(1); }
+        }
+        .hero-subtitle {
+            animation: subtitlePulse 4s ease-in-out infinite;
+        }
+        @keyframes subtitlePulse {
+            0%, 100% { opacity: 0.4; letter-spacing: 0.9em; }
+            50%       { opacity: 0.7; letter-spacing: 1.1em; }
+        }
         
         .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 900px; }
         .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.5s; display: flex; align-items: center; gap: 20px; }
         .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
 
-        .theme-dock { display: none; } /* Handled by settings */
-
-        @media (max-width: 700px) { .team-grid, .links-grid { grid-template-columns: 1fr; } .audio-unit { bottom: 90px; left: 20px; right: 20px; max-width: none; } .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } .mode-bar { height: 120px; flex-direction: column !important; padding: 15px; justify-content: center; } }
+        @media (max-width: 700px) { 
+            .team-grid, .links-grid { grid-template-columns: 1fr; } 
+            .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } 
+            .mode-bar { height: 120px; flex-direction: column !important; padding: 15px; justify-content: center; }
+        }
     </style>
 </head>
 <body class="theme-noir">
@@ -156,7 +201,7 @@
     <div id="entry-overlay">
         <div class="entry-container">
             <div class="entry-pulse"></div>
-            <button class="entry-btn" onclick="startExperience()">黎明 // ACCESS</button>
+            <button class="entry-btn" onclick="startExperience()">ACCESS</button>
         </div>
     </div>
 
@@ -172,16 +217,17 @@
                 <div class="viz-window" id="w-viz"></div>
             </div>
             <div class="player-controls">
-                <button class="btn-p" onclick="scWidget.prev()"><i class="fa-solid fa-backward-step"></i></button>
-                <button class="btn-p play-toggle" id="play-btn" onclick="scWidget.toggle()"><i class="fa-solid fa-circle-play"></i></button>
-                <button class="btn-p" onclick="scWidget.next()"><i class="fa-solid fa-forward-step"></i></button>
+                <button class="btn-p" onclick="scWidget && scWidget.prev()"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="btn-p play-toggle" id="play-btn" onclick="scWidget && scWidget.toggle()"><i class="fa-solid fa-circle-play"></i></button>
+                <button class="btn-p" onclick="scWidget && trackCount>0 && scWidget.skip(Math.floor(Math.random()*trackCount))"><i class="fa-solid fa-forward-step"></i></button>
             </div>
             <div class="volume-container">
                 <i class="fa-solid fa-volume-low" style="font-size: 0.7rem;"></i>
                 <div class="vol-slider" id="vol-slider"><div class="vol-fill" id="vol-fill"></div></div>
             </div>
         </div>
-        <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/sets/181313331&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" style="display:none;"></iframe>
+
+        <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nosechan/sets/site&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" allow="autoplay" style="position:fixed; left:-9999px; top:-9999px; width:200px; height:100px;"></iframe>
     </div>
 
     <button id="settings-trigger"><i class="fa-solid fa-sliders"></i></button>
@@ -214,18 +260,18 @@
     <div id="main-scroll-container">
         <section>
             <div class="hero-header reveal">
-                <h1>NoseChan</h1>
-                <p class="hero-subtitle">Habitat Engine</p>
+                <h1 id="hero-title"></h1>
+                <p class="hero-subtitle">映像作りながら学生やってます～♪</p>
             </div>
         </section>
 
         <section>
             <div class="profile-section reveal">
                 <div class="profile-icon"></div>
-                <h2 class="profile-name">ICHINOSE</h2>
+                <h2 class="profile-name">ICHINOSE1428</h2>
                 <p class="profile-bio">
                     Video Editor / Unity Animator<br>
-                    After Effects 6年 / AviUtl 1年。映像制作頑張ってます。
+                    After Effects 1年 / AviUtl 6年。映像制作頑張ってます。
                 </p>
                 <div class="tag-container">
                     <span class="tag">AfterEffects</span><span class="tag">AviUtl</span><span class="tag">音MAD</span><span class="tag">VRChat</span>
@@ -250,11 +296,11 @@
                 </a>
                 <a href="https://www.tiktok.com/@ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-tiktok card-icon" style="font-size:2rem;"></i>
-                    <div class="card-bottom"><h3>TikTok</h3><p>制作動画・ショート</p></div>
+                    <div class="card-bottom"><h3>TikTok</h3><p>たまに上げてます</p></div>
                 </a>
                 <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-youtube card-icon" style="font-size:2rem;"></i>
-                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。投稿頻度マジで少ない。</p></div>
+                    <div class="card-bottom"><h3>YouTube</h3><p>超低速投稿</p></div>
                 </a>
                 <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-x-twitter card-icon" style="font-size:2rem;"></i>
@@ -283,16 +329,51 @@
     </div>
 
     <script>
+
+        const heroTitle = document.getElementById('hero-title');
+        const titleText = 'NoseChan';
+        const glitchAnims = ['charFloat', 'charGlitch', 'charSpin', 'charFloat', 'charFloat'];
+
+        titleText.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char === ' ' ? '\u00A0' : char;
+
+            const delay = i * 0.12;
+            const duration = 2.8 + (i % 3) * 0.4;
+            span.style.animationDelay = `${delay}s`;
+            span.style.animationDuration = `${duration}s`;
+            heroTitle.appendChild(span);
+        });
+
+
+        function triggerRandomAnim() {
+            const spans = heroTitle.querySelectorAll('.char');
+            const target = spans[Math.floor(Math.random() * spans.length)];
+            const anim = glitchAnims[Math.floor(Math.random() * glitchAnims.length)];
+            const dur = anim === 'charSpin' ? '0.8s' : '0.5s';
+
+            target.style.animation = `${anim} ${dur} ease forwards`;
+            setTimeout(() => {
+                const i = Array.from(spans).indexOf(target);
+                const delay = i * 0.12;
+                const duration = 2.8 + (i % 3) * 0.4;
+                target.style.animation = `charFloat ${duration}s ${delay}s ease-in-out infinite`;
+            }, parseFloat(dur) * 1000 + 50);
+
+
+            setTimeout(triggerRandomAnim, 800 + Math.random() * 2200);
+        }
+        setTimeout(triggerRandomAnim, 1500);
+
         let mx = 0, my = 0, tx = 0, ty = 0, time = 0, sy = 0, introProgress = 0;
         window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
         window.addEventListener('scroll', () => { sy = window.pageYOffset; });
 
-        // --- Settings & UI Logic ---
-        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
-        const musicContainer = document.getElementById('music-container');
-        const settingsMenu = document.getElementById('settings-menu');
-        const playBtn = document.getElementById('play-btn');
 
+        const settingsMenu = document.getElementById('settings-menu');
+        const musicContainer = document.getElementById('music-container');
+        
         document.getElementById('settings-trigger').addEventListener('click', () => {
             settingsMenu.style.display = settingsMenu.style.display === 'flex' ? 'none' : 'flex';
         });
@@ -309,7 +390,7 @@
             settingsMenu.style.display = 'none';
         }
 
-        // --- Dragging Logic ---
+
         let isDragging = false, dragOffset = {x:0, y:0};
         document.getElementById('music-header').addEventListener('mousedown', e => {
             if(!musicContainer.classList.contains('mode-window')) return;
@@ -325,7 +406,9 @@
         });
         document.addEventListener('mouseup', () => isDragging = false);
 
-        // --- SoundCloud Control ---
+
+        let scWidget, trackCount = 0, entryDone = false;
+        const playBtn = document.getElementById('play-btn');
         const wBars = [];
         const vizCont = document.getElementById('w-viz');
         for(let i=0; i<16; i++){
@@ -333,9 +416,35 @@
             vizCont.appendChild(b); wBars.push(b);
         }
 
+        window.addEventListener('load', () => {
+            scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
+
+            scWidget.bind(SC.Widget.Events.READY, () => {
+                scWidget.setVolume(30);
+                scWidget.getSounds(sounds => {
+                    trackCount = sounds.length;
+                    scWidget.skip(Math.floor(Math.random() * trackCount));
+                    if (entryDone) setTimeout(() => scWidget.play(), 300);
+                });
+            });
+
+            scWidget.bind(SC.Widget.Events.FINISH, () => {
+                if (trackCount > 0) scWidget.skip(Math.floor(Math.random() * trackCount));
+            });
+
+            scWidget.bind(SC.Widget.Events.PLAY, () => { 
+                playBtn.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
+                syncTrackInfo(); 
+            });
+            scWidget.bind(SC.Widget.Events.PAUSE, () => {
+                playBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i>';
+            });
+        });
+
         function startExperience() { 
-            document.getElementById('entry-overlay').classList.add('hidden'); 
-            scWidget.play(); 
+            document.getElementById('entry-overlay').classList.add('hidden');
+            entryDone = true;
+            if (scWidget) scWidget.play();
         }
 
         const syncTrackInfo = () => {
@@ -347,32 +456,20 @@
             });
         };
 
-        scWidget.bind(SC.Widget.Events.READY, () => {
-            scWidget.getSounds(sounds => scWidget.skip(Math.floor(Math.random() * sounds.length)));
-        });
-
-        scWidget.bind(SC.Widget.Events.PLAY, () => { 
-            playBtn.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
-            syncTrackInfo(); 
-        });
-        scWidget.bind(SC.Widget.Events.PAUSE, () => {
-            playBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i>';
-        });
-
         document.getElementById('vol-slider').addEventListener('click', e => {
             const rect = e.currentTarget.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
             document.getElementById('vol-fill').style.width = (pct * 100) + '%';
-            scWidget.setVolume(pct * 100);
+            if (scWidget) scWidget.setVolume(pct * 100);
         });
 
-        // --- Intersection Observer ---
+
         const observer = new IntersectionObserver((entries) => { 
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); 
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // --- Visual Engine (Canvas) ---
+
         const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
         const pcCanvas = document.getElementById('particle-canvas'), pcCtx = pcCanvas.getContext('2d');
         const tpCanvas = document.getElementById('text-particle-canvas'), tpCtx = tpCanvas.getContext('2d');
