@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>- ̗̀ ʚ 𝓝𝓸𝓼𝓮𝓒𝓱𝓪ⁿ ɞ ̖́ - // Gradient Habitat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Noto+Sans+JP:wght@100;300;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+
+    <style>
+        :root {
+            /* --- NOIR (Default: Black & White Gradient) --- */
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #ffffff; /* Gradient start */
+            --gradient-end: #000000;  /* Gradient end */
+            --accent-glow: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(15px);
+            --icon-color: #aaaaaa;
+            --particle-color: #ffffff;
+            --scroll-thumb: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- CRIMSON (Red Gradient) --- */
+        body.theme-crimson {
+            --bg-color: #050000;
+            --accent-color: #ff0033; /* 鮮やかな赤 */
+            --gradient-end: #000000;
+            --accent-glow: rgba(255, 0, 51, 0.6);
+            --card-bg: rgba(255, 0, 51, 0.02);
+            --card-border: rgba(255, 0, 51, 0.15);
+            --icon-color: #ff0033;
+            --particle-color: #ff0033;
+        }
+
+        /* --- PURE (White & Black Gradient) --- */
+        body.theme-pure {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --accent-color: #000000;
+            --gradient-end: #ffffff;
+            --accent-glow: rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --icon-color: #444444;
+            --particle-color: #000000;
+            --scroll-thumb: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0; background-color: var(--bg-color); color: var(--text-color);
+            font-family: -apple-system, "SF Pro Display", "Noto Sans JP", sans-serif;
+            transition: background-color 1s ease, color 1s ease;
+            overflow: hidden; -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 0; } /* 全体グラデーション重視のため隠す */
+
+        /* --- Entry Overlay --- */
+        #entry-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex;
+            align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 1.5s ease, visibility 1.5s;
+        }
+        #entry-overlay.hidden { opacity: 0; visibility: hidden; }
+        .entry-container { position: relative; display: flex; align-items: center; justify-content: center; }
+        .entry-pulse { position: absolute; width: 150px; height: 150px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; animation: pulseIn 2.5s infinite ease-out; }
+        @keyframes pulseIn { 0% { transform: scale(0.8); opacity: 0; } 50% { opacity: 0.3; } 100% { transform: scale(2.5); opacity: 0; } }
+        .entry-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 220px; height: 60px; border-radius: 30px; font-family: 'Montserrat'; letter-spacing: 0.3em; cursor: pointer; transition: 0.6s; backdrop-filter: blur(10px); z-index: 10; }
+        .entry-btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); transform: scale(1.02); }
+
+        /* --- Audio Unit --- */
+        .audio-unit {
+            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            display: flex; align-items: center; gap: 16px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 12px 20px; border-radius: 60px; backdrop-filter: var(--glass-blur);
+            transition: 0.6s cubic-bezier(0.15, 0.8, 0.3, 1); max-width: 300px; cursor: pointer;
+        }
+        .audio-unit:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+        .album-disk { width: 44px; height: 44px; border-radius: 50%; background: #111; overflow: hidden; border: 1px solid var(--card-border); transition: 0.5s; filter: grayscale(100%);}
+        .audio-unit.playing .album-disk { animation: diskRotate 10s linear infinite; border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-glow); }
+        @keyframes diskRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .audio-title { font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.8; }
+        .wave-container { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
+        .wave-bar { width: 2px; background: var(--accent-color); border-radius: 1px; height: 2px; transition: height 0.1s ease; opacity: 0.4; }
+        #sc-player-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+        /* --- Theme Dock --- */
+        .theme-dock {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 100; display: flex; gap: 20px; background: rgba(0,0,0,0.2);
+            padding: 12px 25px; border-radius: 40px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .theme-btn { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; transition: 0.4s; position: relative; }
+        .theme-btn.active::after { content:''; position: absolute; top:-6px; left:-6px; width:26px; height:26px; border: 1px solid var(--accent-color); border-radius: 50%; }
+        .btn-noir { background: #555; }
+        .btn-crimson { background: #ff0033; }
+        .btn-pure { background: #fff; }
+
+        /* --- Main Visual Canvas --- */
+        #canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
+        
+        /* --- Content Layer --- */
+        #main-scroll-container { position: relative; z-index: 5; width: 100%; height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; }
+        #main-scroll-container::-webkit-scrollbar { width: 0; }
+
+        section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 20px; box-sizing: border-box; scroll-snap-align: start; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.15, 0.8, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(3rem, 12vw, 8rem); letter-spacing: -0.05em; margin: 0; background: linear-gradient(to bottom, var(--text-color) 50%, var(--card-border) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));}
+        .hero-subtitle { font-size: 0.8rem; letter-spacing: 0.8em; opacity: 0.4; text-transform: uppercase; margin-top: 30px; }
+        
+        .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 800px; }
+        .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 20px; text-decoration: none; color: inherit; transition: 0.6s; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 20px; }
+        .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .card-icon { font-size: 1.5rem; color: var(--icon-color); transition: 0.4s; width: 30px; text-align: center;}
+        .link-card:hover .card-icon { color: var(--accent-color); transform: scale(1.1); }
+        .card-info-text h3 { font-size: 1rem; margin: 0 0 2px 0; }
+        .card-info-text p { font-size: 0.75rem; opacity: 0.5; margin: 0; font-weight: 300; }
+
+        footer { position: absolute; bottom: 80px; width: 100%; text-align: center; font-size: 0.6rem; opacity: 0.2; letter-spacing: 0.5em; }
+
+        @media (max-width: 700px) { .links-grid { grid-template-columns: 1fr; } .audio-unit { bottom: 90px; left: 20px; right: 20px; max-width: none; } }
+    </style>
+</head>
+<body class="theme-noir">
+
+    <div id="entry-overlay">
+        <div class="entry-container">
+            <div class="entry-pulse"></div>
+            <button class="entry-btn" onclick="startExperience()">CONNECT</button>
+        </div>
+    </div>
+
+    <div class="theme-dock">
+        <div class="theme-btn btn-noir active" onclick="setTheme('noir', this)"></div>
+        <div class="theme-btn btn-crimson" onclick="setTheme('crimson', this)"></div>
+        <div class="theme-btn btn-pure" onclick="setTheme('pure', this)"></div>
+    </div>
+
+    <div class="audio-unit reveal" id="audioUnit">
+        <div class="album-disk">
+            <img src="" id="trackArt" style="width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: 1s;">
+        </div>
+        <div class="audio-info">
+            <div class="audio-title" id="trackTitle">Syncing...</div>
+            <div class="wave-container" id="visualizer"></div>
+        </div>
+        <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/sets/181313331&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" allow="autoplay"></iframe>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="main-scroll-container">
+        <section>
+            <div class="hero-header reveal">
+                <h1>NoseChan</h1>
+                <p class="hero-subtitle">Gradient Habitat</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="links-grid reveal">
+                <a href="https://discord.com/invite/UYhthguZGr" target="_blank" class="link-card">
+                    <i class="fa-brands fa-discord card-icon"></i>
+                    <div class="card-info-text"><h3>Discord</h3><p>公式コミュニティ。</p></div>
+                </a>
+                <a href="https://www.tiktok.com/@ichinose1428" target="_blank" class="link-card">
+                    <i class="fa-brands fa-tiktok card-icon"></i>
+                    <div class="card-info-text"><h3>TikTok</h3><p>ショート動画。</p></div>
+                </a>
+                <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
+                    <i class="fa-brands fa-youtube card-icon"></i>
+                    <div class="card-info-text"><h3>YouTube</h3><p>メインアーカイブ。</p></div>
+                </a>
+                <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
+                    <i class="fa-brands fa-x-twitter card-icon"></i>
+                    <div class="card-info-text"><h3>Twitter / X</h3><p>思考、最新情報。</p></div>
+                </a>
+            </div>
+            <footer>NOSECHAN // &copy; 2026</footer>
+        </section>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const scrollContainer = document.getElementById('main-scroll-container');
+
+        let width, height, sy = 0;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        let time = 0;
+        let introProgress = 0;
+
+        // SoundCloud
+        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
+        function startExperience() { document.getElementById('entry-overlay').classList.add('hidden'); scWidget.play(); }
+
+        const syncTrackInfo = () => {
+            scWidget.getCurrentSound(s => {
+                if (s && s.title) {
+                    document.getElementById('trackTitle').innerText = s.title;
+                    document.getElementById('trackArt').src = s.artwork_url ? s.artwork_url.replace('large', 't500x500') : s.user.avatar_url;
+                    document.getElementById('trackArt').style.opacity = 1;
+                } else { setTimeout(syncTrackInfo, 800); }
+            });
+        };
+        scWidget.bind(SC.Widget.Events.PLAY, () => { document.getElementById('audioUnit').classList.add('playing'); syncTrackInfo(); });
+        scWidget.bind(SC.Widget.Events.PAUSE, () => document.getElementById('audioUnit').classList.remove('playing'));
+        document.getElementById('audioUnit').addEventListener('click', () => scWidget.toggle());
+
+        // Visualizer
+        const vizBars = [];
+        const vizCont = document.getElementById('visualizer');
+        for (let i = 0; i < 12; i++) { const b = document.createElement('div'); b.className = 'wave-bar'; vizCont.appendChild(b); vizBars.push(b); }
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            targetX = width / 2; targetY = height / 2;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => { targetX = e.clientX; targetY = e.clientY; });
+        scrollContainer.addEventListener('scroll', () => { sy = scrollContainer.scrollTop; });
+        resize();
+
+        function drawWavyStarFrame(centerX, centerY, size, opacity, waveAmp, waveFreq, introScale) {
+            const style = getComputedStyle(document.body);
+            const accent = style.getPropertyValue('--accent-color').trim();
+            const gradientEnd = style.getPropertyValue('--gradient-end').trim();
+
+            const currentSize = size * introScale;
+            
+            // --- 全体グラデーション描画 ---
+            ctx.lineWidth = 1.0;
+            
+            // フレーム自体にグラデーションをかける
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, currentSize * 1.2);
+            gradient.addColorStop(0, accent); // 中心（アクセントカラー）
+            gradient.addColorStop(0.8, accent); // 80%までアクセントカラー維持
+            gradient.addColorStop(1, gradientEnd); // 外側（黒/白に溶け込む）
+
+            ctx.strokeStyle = gradient;
+            
+            // CrimsonモードなどではGlowを強く
+            if(document.body.classList.contains('theme-crimson')) {
+                ctx.shadowBlur = 20 * introScale;
+                ctx.shadowColor = accent;
+            } else {
+                ctx.shadowBlur = 0;
+            }
+            
+            ctx.beginPath();
+            const points = [
+                { x: centerX - currentSize, y: centerY },
+                { x: centerX, y: centerY - currentSize },
+                { x: centerX + currentSize, y: centerY },
+                { x: centerX, y: centerY + currentSize },
+                { x: centerX - currentSize, y: centerY }
+            ];
+
+            ctx.moveTo(points[0].x, points[0].y);
+
+            for (let i = 1; i < points.length; i++) {
+                const p = points[i];
+                const waveOffset = i * (Math.PI / 2); 
+                const wavyCX = centerX + Math.sin(time * waveFreq + waveOffset) * waveAmp * introScale;
+                const wavyCY = centerY + Math.cos(time * waveFreq + waveOffset) * waveAmp * introScale;
+
+                ctx.quadraticCurveTo(wavyCX, wavyCY, p.x, p.y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0; // Reset
+        }
+
+        function animate() {
+            time += 0.01;
+
+            if (introProgress < 1) {
+                introProgress += (1 - introProgress) * 0.03;
+                if (1 - introProgress < 0.001) introProgress = 1;
+            }
+
+            // マウス追従（syの影響を少し受ける）
+            mouseX += (targetX - mouseX) * 0.04;
+            mouseY += (targetY - mouseY) * 0.04;
+
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-color');
+            ctx.fillRect(0, 0, width, height);
+
+            const midX = width / 2;
+            const midY = height / 2;
+            
+            // スクロールによるベースサイズの縮小（奥に行く演出）
+            const scrollScale = 1 - (sy / scrollContainer.scrollHeight) * 0.5;
+            const baseSize = Math.max(width, height) * 0.9 * scrollScale;
+
+            const intro1 = Math.pow(introProgress, 1.5);
+            const intro2 = Math.pow(introProgress, 1.2);
+            const intro3 = introProgress;
+
+            // Gradient Wavy Frames
+            // 1. 奥
+            drawWavyStarFrame(midX + (mouseX - midX) * 0.01, midY + (mouseY - midY) * 0.01 + sy * 0.1, baseSize * 0.8, 0.1, 10, 0.4, intro1);
+            // 2. 中
+            drawWavyStarFrame(midX + (mouseX - midX) * 0.02, midY + (mouseY - midY) * 0.02 + sy * 0.2, baseSize * 0.9, 0.2, 20, 0.5, intro2);
+            // 3. 前
+            drawWavyStarFrame(midX + (mouseX - midX) * 0.03, midY + (mouseY - midY) * 0.03 + sy * 0.3, baseSize, 0.4, 30, 0.6, intro3);
+
+            // SoundCloud Visualizer
+            if (document.getElementById('audioUnit').classList.contains('playing')) {
+                vizBars.forEach((b, i) => { b.style.height = (2 + Math.random()*10 + Math.sin(time*10 + i)*3) + 'px'; });
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Theme & Reveal
+        function setTheme(theme, btnEl) {
+            document.body.className = 'theme-' + theme;
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+        }
+
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        animate();
+    </script>
+</body>
+</html>
