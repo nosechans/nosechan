@@ -67,47 +67,69 @@
         .entry-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 220px; height: 60px; border-radius: 30px; font-family: 'Montserrat'; letter-spacing: 0.3em; cursor: pointer; transition: 0.6s; backdrop-filter: blur(10px); z-index: 10; font-weight: 300; }
         .entry-btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); transform: scale(1.02); }
 
-        /* --- Music Container --- */
+        /* --- Music Container Modes --- */
         #music-container { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); user-select: none; }
-        .mode-window { position: fixed; top: 50px; right: 50px; width: 300px; background: rgba(10, 10, 10, 0.7); border: 1px solid var(--card-border); border-radius: 16px; backdrop-filter: blur(25px); z-index: 2000; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
-        .mode-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; background: rgba(0, 0, 0, 0.85); border-top: 1px solid var(--card-border); backdrop-filter: blur(20px); z-index: 2000; display: flex !important; align-items: center; justify-content: space-between; flex-direction: row !important; padding: 0 40px; box-sizing: border-box; }
+        .mode-window {
+            position: fixed; top: 50px; right: 50px; width: 300px;
+            background: rgba(10, 10, 10, 0.7); border: 1px solid var(--card-border);
+            border-radius: 16px; backdrop-filter: blur(25px); z-index: 2000;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+        .mode-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 80px;
+            background: rgba(0, 0, 0, 0.85); border-top: 1px solid var(--card-border);
+            backdrop-filter: blur(20px); z-index: 2000; display: flex !important;
+            align-items: center; justify-content: space-between; flex-direction: row !important;
+            padding: 0 40px; box-sizing: border-box;
+        }
+        .mode-bar .window-header, .mode-bar .track-art-large { display: none; }
+        .mode-bar .window-body { flex-direction: row; width: 100%; padding: 0; gap: 30px; justify-content: space-between; }
+        .mode-bar .player-controls { margin: 0; order: 2; }
+        .mode-bar .track-info-mid { text-align: left; order: 1; width: auto; flex: 1; }
+        .mode-bar .volume-container { width: 150px; order: 3; }
+
         .window-header { padding: 12px 15px; border-bottom: 1px solid var(--card-border); display: flex; align-items: center; cursor: grab; background: rgba(255,255,255,0.02); }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; margin-right: 6px; }
         .dot.red { background: #ff5f56; }
         .window-body { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .track-art-large { width: 110px; height: 110px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+        .track-art-large { width: 110px; height: 110px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .track-name-large { font-size: 0.85rem; font-weight: 700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        
         .player-controls { display: flex; align-items: center; gap: 20px; }
         .btn-p { background: none; border: none; color: #fff; cursor: pointer; transition: 0.3s; opacity: 0.6; font-size: 1.1rem; }
+        .btn-p:hover { opacity: 1; color: var(--accent-color); transform: scale(1.1); }
         .play-toggle { font-size: 2rem; opacity: 1; }
+
         .volume-container { width: 100%; display: flex; align-items: center; gap: 10px; opacity: 0.4; }
-        .vol-slider { flex: 1; height: 3px; background: #333; border-radius: 2px; cursor: pointer; position: relative; }
+        .vol-slider { flex: 1; height: 3px; background: #333; border-radius: 2px; position: relative; cursor: pointer; }
         .vol-fill { height: 100%; background: var(--accent-color); width: 70%; border-radius: 2px; }
+
         .viz-window { display: flex; align-items: flex-end; gap: 3px; height: 25px; justify-content: center; }
         .v-bar { width: 4px; background: var(--accent-color); border-radius: 2px 2px 0 0; opacity: 0.3; }
 
-        /* --- Settings UI --- */
+        /* --- Unified Settings UI --- */
         #settings-trigger { position: fixed; bottom: 25px; right: 25px; z-index: 3000; background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        #settings-trigger:hover { border-color: var(--accent-color); transform: rotate(90deg); }
+        
         #settings-menu { position: fixed; bottom: 80px; right: 25px; background: rgba(10,10,10,0.95); border: 1px solid var(--card-border); padding: 18px; border-radius: 18px; z-index: 3000; display: none; flex-direction: column; gap: 12px; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .settings-label { font-size: 0.55rem; opacity: 0.4; font-family: 'Montserrat'; letter-spacing: 0.15em; margin-bottom: 2px; }
         .setting-group { display: flex; flex-direction: column; gap: 6px; }
         .setting-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 10px; font-size: 0.75rem; cursor: pointer; text-align: left; transition: 0.2s; font-family: 'Montserrat'; }
+        .setting-btn:hover { border-color: var(--accent-color); background: rgba(255,255,255,0.1); }
 
-        /* --- Profile Header (Icons & Teams) --- */
-        .profile-section { text-align: center; margin-bottom: 80px; width: 100%; max-width: 700px; }
-        .profile-icon { width: 140px; height: 140px; border-radius: 50%; background-image: url('pic/icon.jpg'); background-size: cover; border: 2px solid var(--card-border); margin: 0 auto 30px; box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: 0.8s; }
-        .profile-name { font-family: 'Montserrat'; font-weight: 900; font-size: 2.8rem; letter-spacing: 0.1em; margin: 10px 0; }
-        .tag-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
-        .tag { font-size: 0.7rem; padding: 5px 15px; border: 1px solid var(--card-border); border-radius: 20px; opacity: 0.5; font-family: 'Montserrat'; }
-        
-        .team-title-decor { font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.3em; margin: 40px 0 25px; color: var(--accent-color); text-transform: uppercase; border-bottom: 1px solid var(--card-border); display: inline-block; padding-bottom: 5px; }
-        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+        /* --- Profile & Team Decoration --- */
+        .profile-section { text-align: center; margin-bottom: 60px; width: 100%; max-width: 700px; }
+        .profile-icon { width: 120px; height: 120px; border-radius: 50%; background-image: url('pic/icon.jpg'); background-size: cover; border: 2px solid var(--card-border); margin: 0 auto 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); transition: 0.8s; }
+        .team-title-decor { font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.3em; margin: 40px 0 20px; color: var(--accent-color); text-transform: uppercase; border-bottom: 1px solid var(--card-border); display: inline-block; padding-bottom: 5px; }
+        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
         .team-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 15px; transition: 0.4s; text-align: left; backdrop-filter: blur(5px); }
-        .team-card:hover { border-color: var(--accent-color); box-shadow: 0 0 25px var(--accent-glow); transform: translateY(-5px); }
-        .team-card h4 { margin: 0; font-family: 'Montserrat'; font-size: 0.8rem; }
-        .team-card p { margin: 5px 0 0; font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; }
+        .team-card:hover { border-color: var(--accent-color); box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-3px); }
+        .team-card h4 { margin: 0; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 0.05em; }
+        .team-card p { margin: 5px 0 0; font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        /* --- Sections & Canvas --- */
+        /* --- Background Layers --- */
         #bg-global-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; background: #000; }
-        .bg-image-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.4) grayscale(1); transition: 4s ease; }
+        .bg-image-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.4) grayscale(100%); transition: opacity 4s ease; }
         .bg-image-layer.active { opacity: 1; animation: appleZoom 30s linear infinite alternate; }
         @keyframes appleZoom { from { transform: scale(1.0); } to { transform: scale(1.1); } }
         #bg-glass-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; backdrop-filter: var(--glass-blur); background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-color) 130%); pointer-events: none; }
@@ -115,19 +137,20 @@
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 2; width: 100vw; height: 100vh; }
         #main-scroll-container { position: relative; z-index: 5; width: 100%; }
         section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; box-sizing: border-box; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s cubic-bezier(0.15, 0.8, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
         
-        h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(4rem, 18vw, 11rem); letter-spacing: -0.05em; margin: 0; text-align: center; }
-        .hero-subtitle { font-size: 1rem; letter-spacing: 1em; opacity: 0.3; text-transform: uppercase; margin-top: 20px; text-align: center; }
+        h1 { font-family: 'Montserrat'; font-weight: 900; font-size: clamp(3rem, 15vw, 9rem); letter-spacing: -0.06em; margin: 0; line-height: 0.8; }
+        .hero-subtitle { font-size: 0.9rem; letter-spacing: 0.9em; opacity: 0.4; text-transform: uppercase; margin-top: 30px; }
         
         .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 900px; }
         .link-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 24px; text-decoration: none; color: inherit; transition: 0.5s; display: flex; align-items: center; gap: 20px; }
         .link-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
 
-        .theme-dock { display: none; } /* Handled by settings */
-
         @media (max-width: 700px) { 
             .team-grid, .links-grid { grid-template-columns: 1fr; } 
             .mode-window { right: 10px; left: 10px; width: auto; top: auto; bottom: 80px; } 
+            .mode-bar { height: 120px; flex-direction: column !important; padding: 15px; justify-content: center; }
         }
     </style>
 </head>
@@ -167,12 +190,12 @@
     <button id="settings-trigger"><i class="fa-solid fa-sliders"></i></button>
     <div id="settings-menu">
         <div class="setting-group">
-            <div style="font-size:0.55rem; opacity:0.4; font-family:'Montserrat'; letter-spacing:0.1em; margin-bottom:5px;">PLAYER_MODE</div>
+            <div class="settings-label">PLAYER_MODE</div>
             <button class="setting-btn" onclick="setMusicMode('mode-window')">Window Mode</button>
             <button class="setting-btn" onclick="setMusicMode('mode-bar')">Bar Mode</button>
         </div>
         <div class="setting-group">
-            <div style="font-size:0.55rem; opacity:0.4; font-family:'Montserrat'; letter-spacing:0.1em; margin-bottom:5px;">COLOR_THEME</div>
+            <div class="settings-label">COLOR_THEME</div>
             <button class="setting-btn" onclick="setThemeDirect('noir')">Noir</button>
             <button class="setting-btn" onclick="setThemeDirect('crimson')">Crimson</button>
             <button class="setting-btn" onclick="setThemeDirect('pure')">Pure</button>
@@ -234,7 +257,7 @@
                 </a>
                 <a href="https://www.youtube.com/@Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-youtube card-icon" style="font-size:2rem;"></i>
-                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。投稿頻度マジで少ない。</p></div>
+                    <div class="card-bottom"><h3>YouTube</h3><p>メインアーカイブ。</p></div>
                 </a>
                 <a href="https://x.com/Ichinose1428" target="_blank" class="link-card">
                     <i class="fa-brands fa-x-twitter card-icon" style="font-size:2rem;"></i>
@@ -267,13 +290,12 @@
         window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
         window.addEventListener('scroll', () => { sy = window.pageYOffset; });
 
-        // UI & Settings
-        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
-        const musicContainer = document.getElementById('music-container');
+        // --- Settings Logic ---
+        const settingsTrigger = document.getElementById('settings-trigger');
         const settingsMenu = document.getElementById('settings-menu');
-        const playBtn = document.getElementById('play-btn');
-
-        document.getElementById('settings-trigger').addEventListener('click', () => {
+        const musicContainer = document.getElementById('music-container');
+        
+        settingsTrigger.addEventListener('click', () => {
             settingsMenu.style.display = settingsMenu.style.display === 'flex' ? 'none' : 'flex';
         });
 
@@ -289,7 +311,7 @@
             settingsMenu.style.display = 'none';
         }
 
-        // Drag Logic
+        // --- Dragging ---
         let isDragging = false, dragOffset = {x:0, y:0};
         document.getElementById('music-header').addEventListener('mousedown', e => {
             if(!musicContainer.classList.contains('mode-window')) return;
@@ -305,9 +327,12 @@
         });
         document.addEventListener('mouseup', () => isDragging = false);
 
-        // SoundCloud
+        // --- SoundCloud ---
+        const scWidget = SC.Widget(document.getElementById('sc-player-hidden'));
         const wBars = [];
         const vizCont = document.getElementById('w-viz');
+        const playBtn = document.getElementById('play-btn');
+
         for(let i=0; i<16; i++){
             const b = document.createElement('div'); b.className = 'v-bar';
             vizCont.appendChild(b); wBars.push(b);
@@ -346,13 +371,12 @@
             scWidget.setVolume(pct * 100);
         });
 
-        // Themes & Observer
+        // --- Visual Engine ---
         const observer = new IntersectionObserver((entries) => { 
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); 
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Visual Engine
         const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
         const pcCanvas = document.getElementById('particle-canvas'), pcCtx = pcCanvas.getContext('2d');
         const tpCanvas = document.getElementById('text-particle-canvas'), tpCtx = tpCanvas.getContext('2d');
@@ -409,11 +433,11 @@
             tpParticles.forEach(p => {
                 p.vx += (p.bx - p.x)*0.1; p.vy += (p.by - (p.y + sy * 0.4))*0.1;
                 p.vx *= 0.8; p.vy *= 0.8; p.x += p.vx; p.y += p.vy;
-                tpCtx.beginPath(); tpCtx.arc(p.x, p.y, 1.0, 0, Math.PI*2); tpCtx.fill();
+                tpCtx.beginPath(); tpCtx.arc(p.x, p.y, 1.2, 0, Math.PI*2); tpCtx.fill();
             });
             wBars.forEach((b, i) => {
                 const isPlaying = playBtn.innerHTML.includes('pause');
-                const h = isPlaying ? (5 + Math.random()*20 + Math.sin(time*10+i)*5) : 2;
+                const h = isPlaying ? (2 + Math.random()*15 + Math.sin(time*10+i)*4) : 2;
                 b.style.height = h + 'px'; b.style.opacity = isPlaying ? "0.8" : "0.2";
             });
             requestAnimationFrame(animate);
