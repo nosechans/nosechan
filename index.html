@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>- ̗̀ ʚ 𝓝𝓸𝓼𝓮𝓒𝓱𝓪ⁿ ɞ ̖́ - // Gradient Habitat</title>
+    <title>- ̗̀ ʚ 𝓝𝓸𝓼𝓮𝓒𝓱𝓪ⁿ ɞ ̖́ - // Blurred Vision</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +17,8 @@
             /* --- NOIR (Default: Black & White Gradient) --- */
             --bg-color: #000000;
             --text-color: #ffffff;
-            --accent-color: #ffffff; /* Gradient start */
-            --gradient-end: #000000;  /* Gradient end */
+            --accent-color: #ffffff;
+            --gradient-end: #000000;
             --accent-glow: rgba(255, 255, 255, 0.8);
             --card-bg: rgba(255, 255, 255, 0.03);
             --card-border: rgba(255, 255, 255, 0.08);
@@ -31,7 +31,7 @@
         /* --- CRIMSON (Red Gradient) --- */
         body.theme-crimson {
             --bg-color: #050000;
-            --accent-color: #ff0033; /* 鮮やかな赤 */
+            --accent-color: #ff0033;
             --gradient-end: #000000;
             --accent-glow: rgba(255, 0, 51, 0.6);
             --card-bg: rgba(255, 0, 51, 0.02);
@@ -61,7 +61,7 @@
             overflow: hidden; -webkit-font-smoothing: antialiased;
         }
 
-        ::-webkit-scrollbar { width: 0; } /* 全体グラデーション重視のため隠す */
+        ::-webkit-scrollbar { width: 0; }
 
         /* --- Entry Overlay --- */
         #entry-overlay {
@@ -105,6 +105,25 @@
         .btn-noir { background: #555; }
         .btn-crimson { background: #ff0033; }
         .btn-pure { background: #fff; }
+
+        /* --- Background Effects with Images --- */
+        #bg-global-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; background: #000; }
+        
+        .bg-image-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; opacity: 0;
+            filter: brightness(0.5) grayscale(100%); /* モノクロ・減光加工 */
+            transition: opacity 3s ease; /* クロスフェード */
+            transform: scale(1.05); /* わずかに拡大 */
+        }
+        .bg-image-layer.active { opacity: 1; }
+
+        #bg-glass-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; backdrop-filter: blur(15px); /* ぼかし */
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-color) 120%); /* 深度グラデ */
+            pointer-events: none;
+        }
 
         /* --- Main Visual Canvas --- */
         #canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
@@ -159,13 +178,21 @@
         <iframe id="sc-player-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/sets/181313331&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" allow="autoplay"></iframe>
     </div>
 
+    <div id="bg-global-container">
+        <div class="bg-image-layer" style="background-image: url('pic/wallpaper1.png');"></div>
+        <div class="bg-image-layer" style="background-image: url('pic/wallpaper2.png');"></div>
+        <div class="bg-image-layer" style="background-image: url('pic/wallpaper3.png');"></div>
+        <div class="bg-image-layer" style="background-image: url('pic/wallpaper4.png');"></div>
+    </div>
+    <div id="bg-glass-overlay"></div>
+
     <canvas id="canvas"></canvas>
 
     <div id="main-scroll-container">
         <section>
             <div class="hero-header reveal">
                 <h1>NoseChan</h1>
-                <p class="hero-subtitle">Gradient Habitat</p>
+                <p class="hero-subtitle">Visual Experience // Habitat</p>
             </div>
         </section>
 
@@ -211,8 +238,8 @@
             scWidget.getCurrentSound(s => {
                 if (s && s.title) {
                     document.getElementById('trackTitle').innerText = s.title;
-                    document.getElementById('trackArt').src = s.artwork_url ? s.artwork_url.replace('large', 't500x500') : s.user.avatar_url;
-                    document.getElementById('trackArt').style.opacity = 1;
+                    const art = s.artwork_url ? s.artwork_url.replace('large', 't500x500') : s.user.avatar_url;
+                    document.getElementById('trackArt').src = art; document.getElementById('trackArt').style.opacity = 1;
                 } else { setTimeout(syncTrackInfo, 800); }
             });
         };
@@ -225,6 +252,23 @@
         const vizCont = document.getElementById('visualizer');
         for (let i = 0; i < 12; i++) { const b = document.createElement('div'); b.className = 'wave-bar'; vizCont.appendChild(b); vizBars.push(b); }
 
+        // --- Background Image Slideshow Logic ---
+        const bgLayers = document.querySelectorAll('.bg-image-layer');
+        let currentBgIdx = -1;
+
+        function updateBackgroundImage() {
+            let nextIdx = Math.floor(Math.random() * bgLayers.length);
+            // 同じ画像が続かないようにする
+            while(nextIdx === currentBgIdx) nextIdx = Math.floor(Math.random() * bgLayers.length);
+
+            // 現在の画像を非アクティブに
+            if (currentBgIdx >= 0) bgLayers[currentBgIdx].classList.remove('active');
+            
+            // 次の画像をアクティブに（CSSでクロスフェード）
+            bgLayers[nextIdx].classList.add('active');
+            currentBgIdx = nextIdx;
+        }
+
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -236,6 +280,10 @@
         scrollContainer.addEventListener('scroll', () => { sy = scrollContainer.scrollTop; });
         resize();
 
+        // 画像スライドショーを開始 (12秒ごと)
+        updateBackgroundImage();
+        setInterval(updateBackgroundImage, 12000); 
+
         function drawWavyStarFrame(centerX, centerY, size, opacity, waveAmp, waveFreq, introScale) {
             const style = getComputedStyle(document.body);
             const accent = style.getPropertyValue('--accent-color').trim();
@@ -243,18 +291,65 @@
 
             const currentSize = size * introScale;
             
-            // --- 全体グラデーション描画 ---
             ctx.lineWidth = 1.0;
             
-            // フレーム自体にグラデーションをかける
             const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, currentSize * 1.2);
-            gradient.addColorStop(0, accent); // 中心（アクセントカラー）
-            gradient.addColorStop(0.8, accent); // 80%までアクセントカラー維持
-            gradient.addColorStop(1, gradientEnd); // 外側（黒/白に溶け込む）
+            gradient.addColorStop(0, accent); 
+            gradient.addColorStop(0.8, accent); 
+            gradient.addColorStop(1, gradientEnd); 
 
             ctx.strokeStyle = gradient;
             
-            // CrimsonモードなどではGlowを強く
+            if(document.body.classList.contains('theme-crimson')) {
+                ctx.shadowBlur = 20 * introScale;
+                ctx.shadowColor = accent;
+            } else {
+                ctx.shadowBlur = 0;
+            }
+            
+            ctx.beginPath();
+            const points = [
+                { x: centerX - currentSize, y: centerY },
+                { x: centerX, y: centerY - currentSize },
+                { x: centerX + currentSize, y: centerY },
+                { x: centerX, y: centerY + currentSize },
+                { x: centerX - currentSize, y: centerY }
+            ];
+
+            ctx.moveTo(points[0].x, pts[0].y); // Note: Fix here points[0].y from pts[0].y
+
+            // --- Fix a small typo from original code `pts[0].y` to `points[0].y` ---
+            for (let i = 1; i < points.length; i++) {
+                const p = points[i];
+                const waveOffset = i * (Math.PI / 2); 
+                const wavyCX = centerX + Math.sin(time * waveFreq + waveOffset) * waveAmp * introScale;
+                const wavyCY = centerY + Math.cos(time * waveFreq + waveOffset) * waveAmp * introScale;
+
+                ctx.quadraticCurveTo(wavyCX, wavyCY, p.x, p.y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0; // Reset
+        }
+
+        // Original code had a pts[0].y bug, fixing it here for the integrated script
+        // Note: Replacing the drawWavyStarFrame function completely for safety.
+
+        function drawWavyStarFrameFixed(centerX, centerY, size, opacity, waveAmp, waveFreq, introScale) {
+            const style = getComputedStyle(document.body);
+            const accent = style.getPropertyValue('--accent-color').trim();
+            const gradientEnd = style.getPropertyValue('--gradient-end').trim();
+
+            const currentSize = size * introScale;
+            
+            ctx.lineWidth = 1.0;
+            
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, currentSize * 1.2);
+            gradient.addColorStop(0, accent); 
+            gradient.addColorStop(0.8, accent); 
+            gradient.addColorStop(1, gradientEnd); 
+
+            ctx.strokeStyle = gradient;
+            
             if(document.body.classList.contains('theme-crimson')) {
                 ctx.shadowBlur = 20 * introScale;
                 ctx.shadowColor = accent;
@@ -293,17 +388,16 @@
                 if (1 - introProgress < 0.001) introProgress = 1;
             }
 
-            // マウス追従（syの影響を少し受ける）
+            // マウス追従
             mouseX += (targetX - mouseX) * 0.04;
             mouseY += (targetY - mouseY) * 0.04;
 
-            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-color');
-            ctx.fillRect(0, 0, width, height);
+            // Canvasは透明にして、CSS背景を見せる
+            ctx.clearRect(0, 0, width, height); 
 
             const midX = width / 2;
             const midY = height / 2;
             
-            // スクロールによるベースサイズの縮小（奥に行く演出）
             const scrollScale = 1 - (sy / scrollContainer.scrollHeight) * 0.5;
             const baseSize = Math.max(width, height) * 0.9 * scrollScale;
 
@@ -313,11 +407,11 @@
 
             // Gradient Wavy Frames
             // 1. 奥
-            drawWavyStarFrame(midX + (mouseX - midX) * 0.01, midY + (mouseY - midY) * 0.01 + sy * 0.1, baseSize * 0.8, 0.1, 10, 0.4, intro1);
+            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.01, midY + (mouseY - midY) * 0.01 + sy * 0.1, baseSize * 0.8, 0.1, 10, 0.4, intro1);
             // 2. 中
-            drawWavyStarFrame(midX + (mouseX - midX) * 0.02, midY + (mouseY - midY) * 0.02 + sy * 0.2, baseSize * 0.9, 0.2, 20, 0.5, intro2);
+            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.02, midY + (mouseY - midY) * 0.02 + sy * 0.2, baseSize * 0.9, 0.2, 20, 0.5, intro2);
             // 3. 前
-            drawWavyStarFrame(midX + (mouseX - midX) * 0.03, midY + (mouseY - midY) * 0.03 + sy * 0.3, baseSize, 0.4, 30, 0.6, intro3);
+            drawWavyStarFrameFixed(midX + (mouseX - midX) * 0.03, midY + (mouseY - midY) * 0.03 + sy * 0.3, baseSize, 0.4, 30, 0.6, intro3);
 
             // SoundCloud Visualizer
             if (document.getElementById('audioUnit').classList.contains('playing')) {
