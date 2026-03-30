@@ -56,7 +56,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Entry Overlay */
         #entry-overlay {
             position: fixed;
             top: 0;
@@ -131,11 +130,6 @@
             transform: scale(1.02);
         }
 
-        /* =========================================
-           プレイヤーUI (ミニプレイヤー & ウィンドウ)
-        ========================================= */
-
-        /* ミニプレイヤー（下部固定） */
         #mini-player {
             position: fixed;
             bottom: 0;
@@ -152,7 +146,6 @@
             box-sizing: border-box;
             cursor: pointer;
             z-index: 2000;
-            /* スライドアニメーションを設定 */
             transform: translateY(0);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
@@ -161,7 +154,6 @@
             background: rgba(15, 15, 15, 0.85);
         }
 
-        /* 非表示クラス（画面下へスライドアウト） */
         #mini-player.hidden {
             transform: translateY(100%);
             pointer-events: none;
@@ -221,12 +213,10 @@
             gap: 20px;
         }
 
-        /* ドラッグ可能なウィンドウプレイヤー */
         #window-player {
             position: fixed;
             bottom: 100px;
             right: 30px;
-            /* 初期位置：右下 */
             width: 320px;
             max-height: 80vh;
             background: rgba(10, 10, 10, 0.85);
@@ -238,7 +228,6 @@
             flex-direction: column;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
 
-            /* 表示アニメーション */
             opacity: 0;
             pointer-events: none;
             transform: translateY(20px) scale(0.95);
@@ -258,7 +247,6 @@
             padding: 15px 20px;
             border-bottom: 1px solid var(--card-border);
             cursor: grab;
-            /* ドラッグ可能であることを示す */
             background: rgba(255, 255, 255, 0.02);
             border-radius: 16px 16px 0 0;
             user-select: none;
@@ -326,7 +314,6 @@
             overflow-x: hidden;
         }
 
-        /* タブ切り替えUI */
         .fp-tabs {
             display: flex;
             gap: 5px;
@@ -359,7 +346,6 @@
             box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        /* タブの中身 */
         .fp-view {
             display: none;
             width: 100%;
@@ -384,7 +370,6 @@
             }
         }
 
-        /* アートワーク画面 */
         .fp-art {
             width: 200px;
             height: 200px;
@@ -410,7 +395,6 @@
             word-break: break-all;
         }
 
-        /* トラックリスト画面 */
         #tracklist-container {
             width: 100%;
             display: flex;
@@ -421,7 +405,6 @@
             padding-right: 5px;
         }
 
-        /* スクロールバーの装飾 */
         #tracklist-container::-webkit-scrollbar {
             width: 4px;
         }
@@ -456,7 +439,6 @@
             font-weight: bold;
         }
 
-        /* コントロール周り */
         .player-controls {
             display: flex;
             align-items: center;
@@ -525,7 +507,6 @@
             pointer-events: none;
         }
 
-        /* 設定ボタンなど */
         #settings-trigger {
             position: fixed;
             bottom: 100px;
@@ -599,7 +580,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* 元のスタイル類 */
         .profile-section {
             text-align: center;
             margin-bottom: 60px;
