@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Start SC Player</title>
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #ff5500; /* SoundCloudオレンジ */
+            --accent: #00ffcc;  /* アクティブ状態のネオンカラー */
+            --bg: #0f0f0f;
+            --panel: #1e1e1e;
+            --text: #ffffff;
+            --subtext: #aaaaaa;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* プレイヤー外枠 */
+        .player-card {
+            background: var(--panel);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            width: 360px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        /* 曲名・アーティスト名 */
+        #track-info {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #artist-name {
+            font-size: 0.9rem;
+            color: var(--subtext);
+            margin-bottom: 25px;
+        }
+
+        /* 音声波形（カスタムビジュアライザー風） */
+        .waveform-container {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            margin: 25px 0;
+            cursor: pointer;
+        }
+        .bar {
+            width: 4px;
+            background: #444;
+            border-radius: 2px;
+            transition: background 0.2s, height 0.3s ease;
+        }
+        .bar.active {
+            background: var(--primary);
+        }
+
+        /* メインコントロール（戻る・再生・進む） */
+        .controls-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.1s, color 0.2s;
+        }
+        button:hover { color: var(--primary); }
+        button:active { transform: scale(0.9); }
+
+        .play-btn { font-size: 60px; }
+        .nav-btn { font-size: 28px; }
+
+        /* サブコントロール（シャッフル・リピート） */
+        .controls-sub {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .option-btn {
+            font-size: 20px;
+            color: #555;
+        }
+        .option-btn.active {
+            color: var(--accent);
+            filter: drop-shadow(0 0 5px var(--accent));
+        }
+
+        /* 音量スライダー */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 0 10px;
+        }
+        .volume-container i { color: #777; width: 20px; }
+        input[type=range] {
+            flex: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #444;
+            border-radius: 2px;
+            accent-color: var(--primary);
+        }
+
+        /* SoundCloud本体は隠す */
+        #sc-widget { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="player-card">
+    <div id="track-info">読み込み中...</div>
+    <div id="artist-name">...</div>
+    
+    <div class="waveform-container" id="waveform"></div>
+
+    <div class="controls-main">
+        <button id="prev" class="nav-btn" title="前へ"><i class="fas fa-step-backward"></i></button>
+        <button id="play-pause" class="play-btn"><i class="fas fa-play-circle"></i></button>
+        <button id="next" class="nav-btn" title="次へ"><i class="fas fa-step-forward"></i></button>
+    </div>
+
+    <div class="controls-sub">
+        <button id="shuffle-btn" class="option-btn" title="シャッフル再生"><i class="fas fa-random"></i></button>
+        <button id="repeat-btn" class="option-btn" title="1曲リピート"><i class="fas fa-redo-alt"></i></button>
+    </div>
+
+    <div class="volume-container">
+        <i class="fas fa-volume-down"></i>
+        <input type="range" id="volume" min="0" max="100" value="50">
+        <i class="fas fa-volume-up"></i>
+    </div>
+</div>
+
+<iframe id="sc-widget" src="https://w.soundcloud.com/player/?url=https://soundcloud.com/nosechan/sets/site&auto_play=false" allow="autoplay"></iframe>
+
+<script>
+    const iframe = document.getElementById('sc-widget');
+    const widget = SC.Widget(iframe);
+    
+    // UI要素の取得
+    const playBtn = document.getElementById('play-pause');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const repeatBtn = document.getElementById('repeat-btn');
+    const waveContainer = document.getElementById('waveform');
+    const trackInfo = document.getElementById('track-info');
+    const artistName = document.getElementById('artist-name');
+    const volSlider = document.getElementById('volume');
+
+    let isShuffle = true; // デフォルトでシャッフルON
+    let isRepeat = false;
+    let trackCount = 0;
+    let duration = 0;
+
+    // 1. シャッフルボタンの初期表示をアクティブに
+    shuffleBtn.classList.add('active');
+
+    // 2. 波形ビジュアルの生成 (50本)
+    for (let i = 0; i < 50; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        // ランダムな初期高さを設定
+        bar.style.height = (Math.random() * 60 + 20) + '%';
+        waveContainer.appendChild(bar);
+    }
+    const bars = document.querySelectorAll('.bar');
+
+    // 3. Widget準備完了時の処理
+    widget.bind(SC.Widget.Events.READY, () => {
+        widget.getSounds(sounds => {
+            trackCount = sounds.length;
+            // ★【追加機能】最初からランダムな曲を選択
+            const startIndex = Math.floor(Math.random() * trackCount);
+            widget.skip(startIndex);
+            updateUI();
+        });
+    });
+
+    // 4. ボタン操作のイベント
+    playBtn.addEventListener('click', () => widget.toggle());
+
+    shuffleBtn.addEventListener('click', () => {
+        isShuffle = !isShuffle;
+        shuffleBtn.classList.toggle('active', isShuffle);
+    });
+
+    repeatBtn.addEventListener('click', () => {
+        isRepeat = !isRepeat;
+        repeatBtn.classList.toggle('active', isRepeat);
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+        if(isShuffle) playRandom(); else widget.next();
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+        widget.prev();
+    });
+
+    volSlider.addEventListener('input', (e) => {
+        widget.setVolume(e.target.value);
+    });
+
+    // 5. 波形クリックでシーク（再生位置変更）
+    waveContainer.addEventListener('click', (e) => {
+        const rect = waveContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const pct = x / rect.width;
+        widget.seekTo(duration * pct);
+    });
+
+    // 6. SoundCloudからのイベント取得
+    widget.bind(SC.Widget.Events.PLAY, () => {
+        playBtn.innerHTML = '<i class="fas fa-pause-circle"></i>';
+        updateUI();
+    });
+
+    widget.bind(SC.Widget.Events.PAUSE, () => {
+        playBtn.innerHTML = '<i class="fas fa-play-circle"></i>';
+    });
+
+    // 曲が終了した時の挙動
+    widget.bind(SC.Widget.Events.FINISH, () => {
+        if (isRepeat) {
+            widget.seekTo(0);
+            widget.play();
+        } else if (isShuffle) {
+            playRandom();
+        } else {
+            widget.next();
+        }
+    });
+
+    // 再生位置に合わせて波形の色を変える
+    widget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
+        const activeBarIndex = Math.floor(data.relativePosition * bars.length);
+        bars.forEach((bar, i) => {
+            bar.classList.toggle('active', i <= activeBarIndex);
+        });
+    });
+
+    // ヘルパー関数
+    function playRandom() {
+        const randomIndex = Math.floor(Math.random() * trackCount);
+        widget.skip(randomIndex);
+    }
+
+    function updateUI() {
+        widget.getCurrentSound((sound) => {
+            if (sound) {
+                trackInfo.innerText = sound.title;
+                artistName.innerText = sound.user.username;
+                duration = sound.duration;
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
